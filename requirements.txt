@@ -1,0 +1,5 @@
+espnet==0.9.7
+parallel_wavegan==0.4.8
+pyopenjtalk==0.1.0
+simpleaudio==1.0.4
+gdown
