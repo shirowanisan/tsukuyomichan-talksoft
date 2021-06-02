@@ -9,16 +9,20 @@ from parallel_wavegan.utils import load_model
 
 
 class TsukuyomichanTalksoft:
-    def __init__(self, model_version='v.1.0.0'):
+    def __init__(self, model_version='v.1.1.0'):
         if model_version == 'v.1.0.0':
             self.model_url = 'https://drive.google.com/uc?id=1sxX2D1ioNXmo8QLScufnkqpgpv1NnGka'
+            self.folder_name = 'TSUKUYOMICHAN_MODEL'
+            self.vocoder_model_path = f"{self.folder_name}/VOCODER/checkpoint-400000steps.pkl"
+        elif model_version == 'v.1.1.0':
+            self.model_url = 'https://drive.google.com/uc?id=1FyDR366PvdWejWI0WJ9rNaCAEiiLewPv'
+            self.folder_name = 'TSUKUYOMICHAN_MODEL_v.1.1.0'
+            self.vocoder_model_path = f"{self.folder_name}/VOCODER/checkpoint-300000steps.pkl"
         else:
             raise Exception("存在しないモデルバージョンです")
 
-        self.folder_name = 'TSUKUYOMICHAN_MODEL'
         self.acoustic_model_path = f"{self.folder_name}/ACOUSTIC_MODEL/200epoch.pth"
         self.acoustic_model_config_path = f"{self.folder_name}/ACOUSTIC_MODEL/config.yaml"
-        self.vocoder_model_path = f"{self.folder_name}/VOCODER/checkpoint-400000steps.pkl"
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         if not os.path.exists(self.folder_name):

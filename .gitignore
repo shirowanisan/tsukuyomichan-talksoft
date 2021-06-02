@@ -1,6 +1,6 @@
 .DS_Store
 .idea
-TSUKUYOMICHAN_MODEL
+TSUKUYOMICHAN_MODEL*
 venv
 __pycache__
 output
