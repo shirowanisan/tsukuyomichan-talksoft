@@ -1,0 +1,4 @@
+
+[submodule "pyopenjtalk2"]
+	path = pyopenjtalk2
+	url = https://github.com/r9y9/pyopenjtalk.git

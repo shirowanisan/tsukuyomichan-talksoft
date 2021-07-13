@@ -1,4 +1,15 @@
-# シロワニさんのつくよみちゃんトークソフト
+# シロワニさんのつくよみちゃんトークソフト Windows対応版並びにElite Dangerous読み上げ対応
+
+シロワニ様のつくよみちゃんトークソフトをWindows対応させたものです。
+
+Prerequirements
+
+・Cmakeを事前にインストールしてください。
+
+・cd pyopenjtalk2 && git submodule update --recursive --init
+
+・pip install -e .
+
 
 「シロワニさんのつくよみちゃんトークソフト」は、私（シロワニさん）がフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成した自作トークソフトです。
 
