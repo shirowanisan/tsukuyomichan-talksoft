@@ -14,7 +14,7 @@ wav = []
 seed = 0
 text = ''
 voice = ''
-talksoft = TsukuyomichanTalksoft(model_version='v.1.1.0')
+talksoft = TsukuyomichanTalksoft(model_version='v.1.2.0')
 
 # GUI
 root = tk.Tk()
