@@ -12,17 +12,27 @@ https://shirowanisan.com/tyc-talksoft
 
 # Google Colabでの使用
 
-<準備中>
+◆落ち着いた読み上げ（従来版）
+
+[つくよみちゃんトークソフト-v.1.0.0-GoogleColab](https://colab.research.google.com/drive/1VX1pPK-A5KHcUnpBz__IYXzVR-93ECan?usp=sharing)
+
+◆感情的な読み上げ（声が明るい時と暗い時があります）
+
+[つくよみちゃんトークソフト-v.1.1.0-GoogleColab](https://colab.research.google.com/drive/1x8T1FE_Gt3baJetEperSYhkVOvEBhX1p?usp=sharing)
+
+◆感情的な読み上げ（イントネーション改善版）
+
+[つくよみちゃんトークソフト-v.1.2.0-GoogleColab](https://colab.research.google.com/drive/1zYzc4qJF_sTp8Vt51wI718sgMckfy85e?usp=sharing)
 
 # ローカルでGUIでの使用（エンジニア向け）
 
 ## 動作環境
 
-| OS      | 動作                                                       |
+| OS      | 動作 |
 | ------- | ---------------------------------------------------------- |
-| Windows | ❌                                                          |
+| Windows | ⭕️（試していませんが、たぶん動くと思います。） |
 | Mac     | ⭕️（Intel MacのBig Sur バージョン11.2.3でのみ試しました。） |
-| Linux   | ⭕️（試していませんが、たぶん動くと思います。）              |
+| Linux   | ⭕️（試していませんが、たぶん動くと思います。） |
 
 pythonは3.8.9で動作確認しました。
 
