@@ -56,6 +56,12 @@ $ python main.py
 - 「聞く」ボタンを押すと、作成した音声が再生される
 - 「保存」を押すと「./output」フォルダの下にwavファイルが保存される
 
+## 開発者向け
+### Pythonモジュールとしてインストール
+```
+pip install git+https://github.com/shirowanisan/tsukuyomichan-talksoft
+```
+
 # クレジット表記
 
 こちらのコードでは、フリー素材キャラクター「つくよみちゃん」の無料公開音声データから作られた音声合成モデルを使用する可能性があります。
