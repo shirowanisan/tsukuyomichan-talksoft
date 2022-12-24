@@ -59,6 +59,12 @@ pip install git+https://github.com/shirowanisan/tsukuyomichan-talksoft
 
 # クレジット表記
 
+本コンテンツは「シロワニさんのつくよみちゃんトークソフト」のソースコードを使用しています。
+
+■シロワニさんのつくよみちゃんトークソフト
+https://shirowanisan.com/tyc-talksoft
+© shirowanisan
+
 こちらのコードでは、フリー素材キャラクター「つくよみちゃん」の無料公開音声データから作られた音声合成モデルを使用する可能性があります。
 
 ■つくよみちゃんコーパス（CV.夢前黎）
