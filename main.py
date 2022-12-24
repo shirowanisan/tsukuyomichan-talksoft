@@ -1,12 +1,19 @@
+import time
+init_time = time.perf_counter()
 import os
 import tkinter as tk
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import simpleaudio as sa
 import soundfile as sf
 
-from tsukuyomichan_talksoft import TsukuyomichanTalksoft
-
+#非同期でインポート
+pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="thread")
+def talkinit():
+    from tsukuyomichan_talksoft import TsukuyomichanTalksoft
+    return TsukuyomichanTalksoft(model_version='v.1.2.0')
+future = pool.submit(talkinit)
 # config
 MAX_WAV_VALUE = 32768.0
 fs = 24000
@@ -14,7 +21,7 @@ wav = []
 seed = 0
 text = ''
 voice = ''
-talksoft = TsukuyomichanTalksoft(model_version='v.1.2.0')
+talksoft = "ぬるぽ"
 
 # GUI
 root = tk.Tk()
@@ -38,6 +45,10 @@ load_label.grid(row=4, column=0, padx=30, pady=15)
 
 
 def make_tsukuyomichan_voice():
+    global talksoft
+    if talksoft == "ぬるぽ":
+        talksoft = future.result()
+        pool.shutdown()
     global text, seed, wav
     text = textbox.get()
     seed = int(seed_box.get())
@@ -66,4 +77,5 @@ run_button.grid(row=6, column=0, padx=10, pady=15)
 run_button = tk.Button(text='保存', command=save_voice)
 run_button.grid(row=7, column=0, padx=10, pady=15)
 
+print("main init time:"+str(time.perf_counter()- init_time))
 root.mainloop()
