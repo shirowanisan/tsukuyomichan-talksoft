@@ -1,8 +1,10 @@
 # シロワニさんのつくよみちゃんトークソフト
 
-「シロワニさんのつくよみちゃんトークソフト」は、私（シロワニさん）がフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成した自作トークソフトです。
+「シロワニさんのつくよみちゃんトークソフト」は、シロワニさんがフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成した自作トークソフトです。
 
 テキストを入力すれば、つくよみちゃんの声質で読み上げ音声を出力します。ボイスロイドやゆっくりのようなものと説明した方がイメージしやすいかもしれません。
+
+そして、シロワニさんのつくよみちゃんトークソフトの起動を早くしただけのものがこのレポジトリです
 
 # 利用規約・免責事項
 
@@ -12,17 +14,7 @@ https://shirowanisan.com/tyc-talksoft
 
 # Google Colabでの使用
 
-◆落ち着いた読み上げ（従来版）
-
-[つくよみちゃんトークソフト-v.1.0.0-GoogleColab](https://colab.research.google.com/drive/1VX1pPK-A5KHcUnpBz__IYXzVR-93ECan?usp=sharing)
-
-◆感情的な読み上げ（声が明るい時と暗い時があります）
-
-[つくよみちゃんトークソフト-v.1.1.0-GoogleColab](https://colab.research.google.com/drive/1x8T1FE_Gt3baJetEperSYhkVOvEBhX1p?usp=sharing)
-
-◆感情的な読み上げ（イントネーション改善版）
-
-[つくよみちゃんトークソフト-v.1.2.0-GoogleColab](https://colab.research.google.com/drive/1zYzc4qJF_sTp8Vt51wI718sgMckfy85e?usp=sharing)
+ColabだとGUIがないので高速化ができないのでありません
 
 # ローカルでGUIでの使用（エンジニア向け）
 
@@ -30,16 +22,17 @@ https://shirowanisan.com/tyc-talksoft
 
 | OS      | 動作 |
 | ------- | ---------------------------------------------------------- |
-| Windows | ❌ インストールする難易度が高いです。できないものと考えた方が良いかもしれません。 |
-| Mac     | ⭕ 「Intel Mac Big Sur」で動作確認しました。 |
-| Linux   | ⭕️ 「Ubuntu 18.04」で動作確認しました。 |
+| Windows | ⭕ 「Windows 11」で動作を確認しました|
+| Mac     | ⭕ (多分動きます) |
+| Linux   | ⭕️ (多分動きます) |
 
-pythonは3.8系で動作確認しました。
+pythonは3.7系で動作確認しました。
 
 GPUを使って計算する場合は、PC内でcudaの設定をして、インストールするpytorchをgpu用のものにかえてください。
 
 ## 環境構築
 
+Visual StudioのCMakeをインストールしてからPathを通してから以下のコードを実行してください
 ```bash
 $ pip install -r requirements.txt
 ```
