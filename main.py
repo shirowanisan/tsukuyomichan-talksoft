@@ -1,5 +1,3 @@
-import time
-init_time = time.perf_counter()
 import os
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
@@ -77,5 +75,4 @@ run_button.grid(row=6, column=0, padx=10, pady=15)
 run_button = tk.Button(text='保存', command=save_voice)
 run_button.grid(row=7, column=0, padx=10, pady=15)
 
-print("main init time:"+str(time.perf_counter()- init_time))
 root.mainloop()

@@ -1,6 +1,3 @@
-print("initializing talksoft on Background")
-import time
-init_time = time.perf_counter()
 import numpy as np
 import torch
 from espnet2.bin.tts_inference import Text2Speech
@@ -35,22 +32,11 @@ class TsukuyomichanTalksoft:
         return vocoder
 
     def generate_voice(self, text, seed):
-        generate_voice = time.perf_counter()
         np.random.seed(seed)
         torch.manual_seed(seed)
-        
-        acoustic_time = time.perf_counter()
         _, mel, mel_dnorm, *_ = self.acoustic_model(text)
-        print("acoustic_time:"+str(time.perf_counter()- acoustic_time))
         if self.config.use_vocoder_stats_flag:
-            print("Using Vocoder...")
             mel = self.config.scaler.transform(mel_dnorm.cpu())
-        vocoder_time = time.perf_counter()
         wav = self.vocoder.inference(mel)
-        print("vocoder_time:"+str(time.perf_counter()- vocoder_time))
-        wav_time = time.perf_counter()
         wav = wav.view(-1).cpu().detach().numpy()
-        print("wav_time:"+str(time.perf_counter()- wav_time))
-        print("generate_voice:"+str(time.perf_counter()- generate_voice))
         return wav  
-print("talksoft init time:"+str(time.perf_counter()- init_time))
