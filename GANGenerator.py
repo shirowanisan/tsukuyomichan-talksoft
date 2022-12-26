@@ -173,7 +173,7 @@ class ParallelWaveGANGenerator(torch.nn.Module):
 
         self.apply(_remove_weight_norm)
 
-    def inference(self, c=None, x=None):
+    def inference(self, c=None):
         """Perform inference.
 
         Args:
@@ -183,17 +183,9 @@ class ParallelWaveGANGenerator(torch.nn.Module):
         Returns:
             Tensor: Output tensor (T, out_channels)
 
-        """
-        if x is not None:
-            if not isinstance(x, torch.Tensor):
-                x = torch.tensor(x, dtype=torch.float).to(next(self.parameters()).device)
-            x = x.transpose(1, 0).unsqueeze(0)
-        else:
-            assert c is not None
-            x = torch.randn(1, 1, len(c) * self.upsample_factor).to(next(self.parameters()).device)
-        if c is not None:
-            if not isinstance(c, torch.Tensor):
-                c = torch.tensor(c, dtype=torch.float).to(next(self.parameters()).device)
-            c = c.transpose(1, 0).unsqueeze(0)
-            c = torch.nn.ReplicationPad1d(self.aux_context_window)(c)
+        """    
+        x = torch.randn(1, 1, len(c) * self.upsample_factor).to(next(self.parameters()).device)
+        c = torch.tensor(c, dtype=torch.float).to(next(self.parameters()).device)
+        c = c.transpose(1, 0).unsqueeze(0)
+        c = torch.nn.ReplicationPad1d(self.aux_context_window)(c)
         return self.forward(x, c).squeeze(0).transpose(1, 0)

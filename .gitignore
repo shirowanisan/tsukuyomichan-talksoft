@@ -4,3 +4,5 @@ TSUKUYOMICHAN_MODEL*
 venv
 __pycache__
 output
+.vscode
+build
