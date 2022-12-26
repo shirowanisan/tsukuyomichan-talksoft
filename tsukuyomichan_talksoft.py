@@ -1,7 +1,9 @@
 import numpy as np
-import torch
 from espnet2.bin.tts_inference import Text2Speech
 from parallel_wavegan.utils import load_model
+
+from utils import load_model
+
 
 from tts_config import TTSConfig
 
@@ -33,7 +35,6 @@ class TsukuyomichanTalksoft:
 
     def generate_voice(self, text, seed):
         np.random.seed(seed)
-        torch.manual_seed(seed)
         _, mel, mel_dnorm, *_ = self.acoustic_model(text)
         if self.config.use_vocoder_stats_flag:
             mel = self.config.scaler.transform(mel_dnorm.cpu())
