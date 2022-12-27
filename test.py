@@ -12,3 +12,4 @@ print("End:"+str(time.perf_counter()-start))
 wav = wav * MAX_WAV_VALUE
 wav = wav.astype(np.int16)
 sa.play_buffer(wav, 1, 2, fs)
+
