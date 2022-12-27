@@ -1702,6 +1702,24 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_LookupSpecial(PyObject* obj, PyObj
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
+/* None.proto */
+static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
+
+/* ExtTypeTest.proto */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
+
+/* GetAttr3.proto */
+static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
+
+/* Import.proto */
+static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
+
+/* ImportFrom.proto */
+static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+
+/* RaiseException.proto */
+static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
+
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -1723,24 +1741,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
 static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
                                                      int is_list, int wraparound, int boundscheck);
-
-/* None.proto */
-static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
-
-/* ExtTypeTest.proto */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
-
-/* GetAttr3.proto */
-static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
-
-/* Import.proto */
-static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-/* ImportFrom.proto */
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
-
-/* RaiseException.proto */
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
 /* HasAttr.proto */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
@@ -2095,6 +2095,7 @@ static const char __pyx_k_spc2wav[] = "spc2wav";
 static const char __pyx_k_squeeze[] = "squeeze";
 static const char __pyx_k_v_1_2_0[] = "v.1.2.0";
 static const char __pyx_k_dilation[] = "dilation";
+static const char __pyx_k_feat_gen[] = "feat_gen";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
 static const char __pyx_k_qualname[] = "__qualname__";
@@ -2145,6 +2146,7 @@ static const char __pyx_k_forward_window[] = "forward_window";
 static const char __pyx_k_generate_voice[] = "generate_voice";
 static const char __pyx_k_MelGANGenerator[] = "MelGANGenerator";
 static const char __pyx_k_backward_window[] = "backward_window";
+static const char __pyx_k_feat_gen_denorm[] = "feat_gen_denorm";
 static const char __pyx_k_load_state_dict[] = "load_state_dict";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
@@ -2167,6 +2169,7 @@ static const char __pyx_k_use_att_constraint[] = "use_att_constraint";
 static const char __pyx_k_vocoder_model_path[] = "vocoder_model_path";
 static const char __pyx_k_acoustic_model_path[] = "acoustic_model_path";
 static const char __pyx_k_apply_weight_norm_2[] = "_apply_weight_norm";
+static const char __pyx_k_WaveNetResidualBlock[] = "WaveNetResidualBlock";
 static const char __pyx_k_remove_weight_norm_2[] = "_remove_weight_norm";
 static const char __pyx_k_ConvInUpsampleNetwork[] = "ConvInUpsampleNetwork";
 static const char __pyx_k_TsukuyomichanTalksoft[] = "TsukuyomichanTalksoft";
@@ -2222,6 +2225,7 @@ static PyObject *__pyx_n_s_TTSConfig;
 static PyObject *__pyx_n_s_Text2Speech;
 static PyObject *__pyx_n_s_TsukuyomichanTalksoft;
 static PyObject *__pyx_n_s_ValueError;
+static PyObject *__pyx_n_s_WaveNetResidualBlock;
 static PyObject *__pyx_kp_u_Weight_norm_is_applied_to;
 static PyObject *__pyx_kp_u_Weight_norm_is_removed_from;
 static PyObject *__pyx_kp_s__8;
@@ -2256,6 +2260,8 @@ static PyObject *__pyx_n_s_espnet2_bin_tts_inference;
 static PyObject *__pyx_n_s_eval;
 static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_f;
+static PyObject *__pyx_n_s_feat_gen;
+static PyObject *__pyx_n_s_feat_gen_denorm;
 static PyObject *__pyx_n_s_first_conv;
 static PyObject *__pyx_n_s_float;
 static PyObject *__pyx_n_s_forward;
@@ -6685,7 +6691,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
  *     cpdef generate_voice(self, str text = "",int seed = 0):
  *         np.random.seed(seed)             # <<<<<<<<<<<<<<
  *         torch.manual_seed(seed)
- *         cdef tuple model
+ *         cdef dict model
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -6719,7 +6725,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
  *     cpdef generate_voice(self, str text = "",int seed = 0):
  *         np.random.seed(seed)
  *         torch.manual_seed(seed)             # <<<<<<<<<<<<<<
- *         cdef tuple model
+ *         cdef dict model
  *         with torch.no_grad():
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_torch); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
@@ -6749,7 +6755,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
 
   /* "tsukuyomichan_talksoft.pyx":258
  *         torch.manual_seed(seed)
- *         cdef tuple model
+ *         cdef dict model
  *         with torch.no_grad():             # <<<<<<<<<<<<<<
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:
@@ -6807,11 +6813,11 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
         /*try:*/ {
 
           /* "tsukuyomichan_talksoft.pyx":259
- *         cdef tuple model
+ *         cdef dict model
  *         with torch.no_grad():
  *             model = self.acoustic_model(text)             # <<<<<<<<<<<<<<
  *             if self.config.use_vocoder_stats_flag:
- *                 mel = self.config.scaler.transform(model[2].cpu())
+ *                 mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
  */
           __Pyx_INCREF(__pyx_v_self->acoustic_model);
           __pyx_t_2 = __pyx_v_self->acoustic_model; __pyx_t_4 = NULL;
@@ -6829,7 +6835,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
           if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (!(likely(PyTuple_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 259, __pyx_L7_error)
+          if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 259, __pyx_L7_error)
           __pyx_v_model = ((PyObject*)__pyx_t_1);
           __pyx_t_1 = 0;
 
@@ -6837,7 +6843,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
  *         with torch.no_grad():
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:             # <<<<<<<<<<<<<<
- *                 mel = self.config.scaler.transform(model[2].cpu())
+ *                 mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
  *             else:
  */
           __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->config, __pyx_n_s_use_vocoder_stats_flag); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L7_error)
@@ -6849,9 +6855,9 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
             /* "tsukuyomichan_talksoft.pyx":261
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:
- *                 mel = self.config.scaler.transform(model[2].cpu())             # <<<<<<<<<<<<<<
+ *                 mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())             # <<<<<<<<<<<<<<
  *             else:
- *                 mel = model[1]
+ *                 mel = model["feat_gen"]
  */
             __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->config, __pyx_n_s_scaler); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
@@ -6862,7 +6868,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
               __PYX_ERR(0, 261, __pyx_L7_error)
             }
-            __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_model, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L7_error)
+            __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_model, __pyx_n_s_feat_gen_denorm); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_7);
             __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_cpu); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_3);
@@ -6905,16 +6911,16 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
  *         with torch.no_grad():
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:             # <<<<<<<<<<<<<<
- *                 mel = self.config.scaler.transform(model[2].cpu())
+ *                 mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
  *             else:
  */
             goto __pyx_L13;
           }
 
           /* "tsukuyomichan_talksoft.pyx":263
- *                 mel = self.config.scaler.transform(model[2].cpu())
+ *                 mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
  *             else:
- *                 mel = model[1]             # <<<<<<<<<<<<<<
+ *                 mel = model["feat_gen"]             # <<<<<<<<<<<<<<
  *         cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
  *         return wav
  */
@@ -6923,7 +6929,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
               __PYX_ERR(0, 263, __pyx_L7_error)
             }
-            __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_model, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_model, __pyx_n_s_feat_gen); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
             __pyx_v_mel = __pyx_t_1;
             __pyx_t_1 = 0;
@@ -6932,7 +6938,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
 
           /* "tsukuyomichan_talksoft.pyx":258
  *         torch.manual_seed(seed)
- *         cdef tuple model
+ *         cdef dict model
  *         with torch.no_grad():             # <<<<<<<<<<<<<<
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:
@@ -7015,7 +7021,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
 
   /* "tsukuyomichan_talksoft.pyx":264
  *             else:
- *                 mel = model[1]
+ *                 mel = model["feat_gen"]
  *         cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()             # <<<<<<<<<<<<<<
  *         return wav
  */
@@ -7114,7 +7120,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
   __pyx_t_2 = 0;
 
   /* "tsukuyomichan_talksoft.pyx":265
- *                 mel = model[1]
+ *                 mel = model["feat_gen"]
  *         cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
  *         return wav             # <<<<<<<<<<<<<<
  */
@@ -9230,6 +9236,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Text2Speech, __pyx_k_Text2Speech, sizeof(__pyx_k_Text2Speech), 0, 0, 1, 1},
   {&__pyx_n_s_TsukuyomichanTalksoft, __pyx_k_TsukuyomichanTalksoft, sizeof(__pyx_k_TsukuyomichanTalksoft), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
+  {&__pyx_n_s_WaveNetResidualBlock, __pyx_k_WaveNetResidualBlock, sizeof(__pyx_k_WaveNetResidualBlock), 0, 0, 1, 1},
   {&__pyx_kp_u_Weight_norm_is_applied_to, __pyx_k_Weight_norm_is_applied_to, sizeof(__pyx_k_Weight_norm_is_applied_to), 0, 1, 0, 0},
   {&__pyx_kp_u_Weight_norm_is_removed_from, __pyx_k_Weight_norm_is_removed_from, sizeof(__pyx_k_Weight_norm_is_removed_from), 0, 1, 0, 0},
   {&__pyx_kp_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 0},
@@ -9264,6 +9271,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_eval, __pyx_k_eval, sizeof(__pyx_k_eval), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
+  {&__pyx_n_s_feat_gen, __pyx_k_feat_gen, sizeof(__pyx_k_feat_gen), 0, 0, 1, 1},
+  {&__pyx_n_s_feat_gen_denorm, __pyx_k_feat_gen_denorm, sizeof(__pyx_k_feat_gen_denorm), 0, 0, 1, 1},
   {&__pyx_n_s_first_conv, __pyx_k_first_conv, sizeof(__pyx_k_first_conv), 0, 0, 1, 1},
   {&__pyx_n_s_float, __pyx_k_float, sizeof(__pyx_k_float), 0, 0, 1, 1},
   {&__pyx_n_s_forward, __pyx_k_forward, sizeof(__pyx_k_forward), 0, 0, 1, 1},
@@ -10012,7 +10021,7 @@ if (!__Pyx_RefNanny) {
  * cimport numpy as cnp
  * 
  * from parallel_wavegan.layers import Conv1d1x1             # <<<<<<<<<<<<<<
- * from parallel_wavegan.layers import ResidualBlock
+ * from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock
  * from parallel_wavegan.layers import upsample
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
@@ -10032,19 +10041,19 @@ if (!__Pyx_RefNanny) {
   /* "tsukuyomichan_talksoft.pyx":14
  * 
  * from parallel_wavegan.layers import Conv1d1x1
- * from parallel_wavegan.layers import ResidualBlock             # <<<<<<<<<<<<<<
+ * from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock             # <<<<<<<<<<<<<<
  * from parallel_wavegan.layers import upsample
  * from parallel_wavegan import models
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_ResidualBlock);
-  __Pyx_GIVEREF(__pyx_n_s_ResidualBlock);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_ResidualBlock);
+  __Pyx_INCREF(__pyx_n_s_WaveNetResidualBlock);
+  __Pyx_GIVEREF(__pyx_n_s_WaveNetResidualBlock);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_WaveNetResidualBlock);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_parallel_wavegan_layers, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_ResidualBlock); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_WaveNetResidualBlock); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_ResidualBlock, __pyx_t_2) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -10052,7 +10061,7 @@ if (!__Pyx_RefNanny) {
 
   /* "tsukuyomichan_talksoft.pyx":15
  * from parallel_wavegan.layers import Conv1d1x1
- * from parallel_wavegan.layers import ResidualBlock
+ * from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock
  * from parallel_wavegan.layers import upsample             # <<<<<<<<<<<<<<
  * from parallel_wavegan import models
  * 
@@ -10072,7 +10081,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "tsukuyomichan_talksoft.pyx":16
- * from parallel_wavegan.layers import ResidualBlock
+ * from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock
  * from parallel_wavegan.layers import upsample
  * from parallel_wavegan import models             # <<<<<<<<<<<<<<
  * 
@@ -12191,93 +12200,6 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
     return 0;
 }
 
-/* GetItemInt */
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
 /* None */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
@@ -12548,6 +12470,93 @@ bad:
     return;
 }
 #endif
+
+/* GetItemInt */
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
 
 /* HasAttr */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {

@@ -11,7 +11,7 @@ import math
 import numpy as np
 
 from parallel_wavegan.layers import Conv1d1x1
-from parallel_wavegan.layers import ResidualBlock
+from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock
 from parallel_wavegan.layers import upsample
 from parallel_wavegan import models
 
@@ -247,13 +247,15 @@ class TsukuyomichanTalksoft:
         vocoder.remove_weight_norm()
         return vocoder
 
-    def generate_voice(self, text):
+    def generate_voice(self, text,seed=0):
+        np.random.seed(seed)
+        torch.manual_seed(seed)
         with torch.no_grad():
             model= self.acoustic_model(text)
             if self.config.use_vocoder_stats_flag:
-                mel = self.config.scaler.transform(model[2].cpu())
+                mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
             else:
-                mel = model[1]
+                mel = model["feat_gen"]
             wav = self.vocoder.inference(mel)
         wav = wav.view(-1).cpu().detach().numpy()
         return wav  

@@ -11,7 +11,7 @@ import numpy as np
 cimport numpy as cnp
 
 from parallel_wavegan.layers import Conv1d1x1
-from parallel_wavegan.layers import ResidualBlock
+from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock
 from parallel_wavegan.layers import upsample
 from parallel_wavegan import models
 
@@ -254,12 +254,12 @@ cdef class TsukuyomichanTalksoft:
     cpdef generate_voice(self, str text = "やぁ",int seed = 0):
         np.random.seed(seed)
         torch.manual_seed(seed)
-        cdef tuple model
+        cdef dict model
         with torch.no_grad():
             model = self.acoustic_model(text)
             if self.config.use_vocoder_stats_flag:
-                mel = self.config.scaler.transform(model[2].cpu())
+                mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
             else:
-                mel = model[1]
+                mel = model["feat_gen"]
         cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
         return wav  
