@@ -12,7 +12,7 @@ def _parse_requirements(path):
         ]
 
 requirements = _parse_requirements('requirements.txt')
-ext = Extension("tsukuyomichan_talksoft", sources=["tsukuyomichan_talksoft.pyx"], include_dirs=['.', get_include()])
+ext = Extension("tsukuyomichan_talksoft", sources=["tsukuyomichan_talksoft.pyx"], include_dirs=['.', get_include()],language_level=3)
 setup(
     name='tsukuyomichan_talksoft',
     version=__version__,
