@@ -1,8 +1,14 @@
+from espnet2.bin.tts_inference import Text2Speech
+
+import os
+import yaml
+from tts_config import TTSConfig
+import torch
+
 import logging
 import math
 
 import numpy as np
-import torch
 
 from parallel_wavegan.layers import Conv1d1x1
 from parallel_wavegan.layers import ResidualBlock
@@ -173,7 +179,7 @@ class ParallelWaveGANGenerator(torch.nn.Module):
 
         self.apply(_remove_weight_norm)
 
-    def inference(self, c=None, x=None):
+    def inference(self, c=None):
         """Perform inference.
 
         Args:
@@ -183,17 +189,71 @@ class ParallelWaveGANGenerator(torch.nn.Module):
         Returns:
             Tensor: Output tensor (T, out_channels)
 
-        """
-        if x is not None:
-            if not isinstance(x, torch.Tensor):
-                x = torch.tensor(x, dtype=torch.float).to(next(self.parameters()).device)
-            x = x.transpose(1, 0).unsqueeze(0)
-        else:
-            assert c is not None
-            x = torch.randn(1, 1, len(c) * self.upsample_factor).to(next(self.parameters()).device)
-        if c is not None:
-            if not isinstance(c, torch.Tensor):
-                c = torch.tensor(c, dtype=torch.float).to(next(self.parameters()).device)
-            c = c.transpose(1, 0).unsqueeze(0)
-            c = torch.nn.ReplicationPad1d(self.aux_context_window)(c)
+        """    
+        x = torch.randn(1, 1, len(c) * self.upsample_factor).to(next(self.parameters()).device)
+        c = torch.tensor(c, dtype=torch.float).to(next(self.parameters()).device)
+        c = c.transpose(1, 0).unsqueeze(0)
+        c = torch.nn.ReplicationPad1d(self.aux_context_window)(c)
         return self.forward(x, c).squeeze(0).transpose(1, 0)
+
+def load_model(checkpoint, config=None):
+    """Load trained model.
+
+    Args:
+        checkpoint (str): Checkpoint path.
+        config (dict): Configuration dict.
+
+    Return:
+        torch.nn.Module: Model instance.
+
+    """
+    # load config if not provided
+    if config is None:
+        dirname = os.path.dirname(checkpoint)
+        config = os.path.join(dirname, "config.yml")
+        with open(config) as f:
+            config = yaml.load(f, Loader=yaml.Loader)
+    # get model and load parameters
+    model = ParallelWaveGANGenerator(**config["generator_params"])
+    model.load_state_dict(
+        torch.load(checkpoint, map_location="cpu")["model"]["generator"]
+    )
+
+    return model
+
+class TsukuyomichanTalksoft:
+    def __init__(self, model_version='v.1.2.0'):
+        self.config: TTSConfig = TTSConfig.get_config_from_version(model_version)
+        self.acoustic_model = self.get_acoustic_model()
+        self.vocoder = self.get_vocoder()
+    
+    def get_acoustic_model(self):
+        acoustic_model = Text2Speech(
+            self.config.acoustic_model_config_path,
+            self.config.acoustic_model_path,
+            device=self.config.device,
+            threshold=0.5,
+            minlenratio=0.0,
+            maxlenratio=10.0,
+            use_att_constraint=False,
+            backward_window=1,
+            forward_window=3
+        )
+        acoustic_model.spc2wav = None
+        return acoustic_model
+
+    def get_vocoder(self):
+        vocoder = load_model(self.config.vocoder_model_path).to(self.config.device).eval()
+        vocoder.remove_weight_norm()
+        return vocoder
+
+    def generate_voice(self, text):
+        with torch.no_grad():
+            model= self.acoustic_model(text)
+            if self.config.use_vocoder_stats_flag:
+                mel = self.config.scaler.transform(model[2].cpu())
+            else:
+                mel = model[1]
+            wav = self.vocoder.inference(mel)
+        wav = wav.view(-1).cpu().detach().numpy()
+        return wav  
