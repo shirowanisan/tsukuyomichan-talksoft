@@ -251,7 +251,9 @@ cdef class TsukuyomichanTalksoft:
         vocoder.remove_weight_norm()
         return vocoder
 
-    cpdef generate_voice(self, str text = "やぁ"):
+    cpdef generate_voice(self, str text = "やぁ",int seed = 0):
+        np.random.seed(seed)
+        torch.manual_seed(seed)
         cdef tuple model
         with torch.no_grad():
             model = self.acoustic_model(text)

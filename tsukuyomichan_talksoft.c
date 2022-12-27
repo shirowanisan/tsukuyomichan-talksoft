@@ -1223,13 +1223,14 @@ struct __pyx_opt_args_22tsukuyomichan_talksoft_load_model {
 /* "tsukuyomichan_talksoft.pyx":254
  *         return vocoder
  * 
- *     cpdef generate_voice(self, str text = ""):             # <<<<<<<<<<<<<<
- *         cdef tuple model
- *         with torch.no_grad():
+ *     cpdef generate_voice(self, str text = "",int seed = 0):             # <<<<<<<<<<<<<<
+ *         np.random.seed(seed)
+ *         torch.manual_seed(seed)
  */
 struct __pyx_opt_args_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_generate_voice {
   int __pyx_n;
   PyObject *text;
+  int seed;
 };
 struct __pyx_defaults {
   PyObject *__pyx_arg_upsample_params;
@@ -1928,13 +1929,16 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 #endif
 
 /* CIntFromPy.proto */
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
+
+/* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
-/* CIntFromPy.proto */
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* FastTypeChecks.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -2040,6 +2044,7 @@ static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_open[] = "open";
 static const char __pyx_k_path[] = "path";
 static const char __pyx_k_prod[] = "prod";
+static const char __pyx_k_seed[] = "seed";
 static const char __pyx_k_self[] = "self";
 static const char __pyx_k_size[] = "size";
 static const char __pyx_k_sqrt[] = "sqrt";
@@ -2073,6 +2078,7 @@ static const char __pyx_k_layers[] = "layers";
 static const char __pyx_k_models[] = "models";
 static const char __pyx_k_module[] = "__module__";
 static const char __pyx_k_pickle[] = "pickle";
+static const char __pyx_k_random[] = "random";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_scaler[] = "scaler";
 static const char __pyx_k_stacks[] = "stacks";
@@ -2120,6 +2126,7 @@ static const char __pyx_k_Text2Speech[] = "Text2Speech";
 static const char __pyx_k_conv_layers[] = "conv_layers";
 static const char __pyx_k_in_channels[] = "in_channels";
 static const char __pyx_k_kernel_size[] = "kernel_size";
+static const char __pyx_k_manual_seed[] = "manual_seed";
 static const char __pyx_k_maxlenratio[] = "maxlenratio";
 static const char __pyx_k_minlenratio[] = "minlenratio";
 static const char __pyx_k_weight_norm[] = "weight_norm";
@@ -2276,6 +2283,7 @@ static PyObject *__pyx_n_s_load_state_dict;
 static PyObject *__pyx_n_s_logging;
 static PyObject *__pyx_n_s_m;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_manual_seed;
 static PyObject *__pyx_n_s_map_location;
 static PyObject *__pyx_n_s_math;
 static PyObject *__pyx_n_s_maxlenratio;
@@ -2312,6 +2320,7 @@ static PyObject *__pyx_n_s_pyx_unpickle_TsukuyomichanTalk;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_randn;
+static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
@@ -2320,6 +2329,7 @@ static PyObject *__pyx_n_s_remove_weight_norm;
 static PyObject *__pyx_n_s_remove_weight_norm_2;
 static PyObject *__pyx_n_s_residual_channels;
 static PyObject *__pyx_n_s_scaler;
+static PyObject *__pyx_n_s_seed;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
@@ -2373,7 +2383,7 @@ static PyObject *__pyx_pf_22tsukuyomichan_talksoft_24ParallelWaveGANGenerator_6r
 static PyObject *__pyx_pf_22tsukuyomichan_talksoft_24ParallelWaveGANGenerator_8inference(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_c); /* proto */
 static PyObject *__pyx_pf_22tsukuyomichan_talksoft_load_model(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_checkpoint, PyObject *__pyx_v_config); /* proto */
 static int __pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft___init__(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, PyObject *__pyx_v_model_version); /* proto */
-static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2generate_voice(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, PyObject *__pyx_v_text); /* proto */
+static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2generate_voice(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, PyObject *__pyx_v_text, int __pyx_v_seed); /* proto */
 static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_4__reduce_cython__(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_6__setstate_cython__(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_22tsukuyomichan_talksoft_2__pyx_unpickle_TsukuyomichanTalksoft(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
@@ -6514,7 +6524,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_get_vo
  *         vocoder.remove_weight_norm()
  *         return vocoder             # <<<<<<<<<<<<<<
  * 
- *     cpdef generate_voice(self, str text = ""):
+ *     cpdef generate_voice(self, str text = "",int seed = 0):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_vocoder);
@@ -6548,14 +6558,15 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_get_vo
 /* "tsukuyomichan_talksoft.pyx":254
  *         return vocoder
  * 
- *     cpdef generate_voice(self, str text = ""):             # <<<<<<<<<<<<<<
- *         cdef tuple model
- *         with torch.no_grad():
+ *     cpdef generate_voice(self, str text = "",int seed = 0):             # <<<<<<<<<<<<<<
+ *         np.random.seed(seed)
+ *         torch.manual_seed(seed)
  */
 
 static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3generate_voice(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_generate_voice(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_generate_voice *__pyx_optional_args) {
   PyObject *__pyx_v_text = ((PyObject*)__pyx_kp_s__8);
+  int __pyx_v_seed = ((int)0);
   PyObject *__pyx_v_model = 0;
   PyObject *__pyx_v_mel = NULL;
   PyArrayObject *__pyx_v_wav = 0;
@@ -6566,15 +6577,16 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
+  PyObject *__pyx_t_9 = NULL;
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
   int __pyx_t_12;
   PyObject *__pyx_t_13 = NULL;
-  PyObject *__pyx_t_14 = NULL;
+  int __pyx_t_14;
+  PyObject *__pyx_t_15 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6582,6 +6594,9 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_text = __pyx_optional_args->text;
+      if (__pyx_optional_args->__pyx_n > 1) {
+        __pyx_v_seed = __pyx_optional_args->seed;
+      }
     }
   }
   /* Check if called by wrapper */
@@ -6597,22 +6612,56 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3generate_voice)) {
         __Pyx_XDECREF(__pyx_r);
+        __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_seed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 254, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
-        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
-        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-          if (likely(__pyx_t_4)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-            __Pyx_INCREF(__pyx_t_4);
+        __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+            __Pyx_INCREF(__pyx_t_5);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __Pyx_DECREF_SET(__pyx_t_4, function);
+            __pyx_t_6 = 1;
           }
         }
-        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_text) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_text);
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 254, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_4)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_text, __pyx_t_3};
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 254, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_text, __pyx_t_3};
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 254, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        } else
+        #endif
+        {
+          __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 254, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          if (__pyx_t_5) {
+            __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
+          }
+          __Pyx_INCREF(__pyx_v_text);
+          __Pyx_GIVEREF(__pyx_v_text);
+          PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_v_text);
+          __Pyx_GIVEREF(__pyx_t_3);
+          PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_3);
+          __pyx_t_3 = 0;
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 254, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_r = __pyx_t_2;
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6631,40 +6680,88 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
     #endif
   }
 
+  /* "tsukuyomichan_talksoft.pyx":255
+ * 
+ *     cpdef generate_voice(self, str text = "",int seed = 0):
+ *         np.random.seed(seed)             # <<<<<<<<<<<<<<
+ *         torch.manual_seed(seed)
+ *         cdef tuple model
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_random); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_seed); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_7, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
   /* "tsukuyomichan_talksoft.pyx":256
- *     cpdef generate_voice(self, str text = ""):
+ *     cpdef generate_voice(self, str text = "",int seed = 0):
+ *         np.random.seed(seed)
+ *         torch.manual_seed(seed)             # <<<<<<<<<<<<<<
+ *         cdef tuple model
+ *         with torch.no_grad():
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_torch); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_manual_seed); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "tsukuyomichan_talksoft.pyx":258
+ *         torch.manual_seed(seed)
  *         cdef tuple model
  *         with torch.no_grad():             # <<<<<<<<<<<<<<
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:
  */
   /*with:*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_torch); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_torch); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 258, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_no_grad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_no_grad); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 256, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_2)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_2);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L3_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
       __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
       if (likely(__pyx_t_4)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
@@ -6673,24 +6770,43 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
         __Pyx_DECREF_SET(__pyx_t_2, function);
       }
     }
-    __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 256, __pyx_L3_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 258, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_8 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 258, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 258, __pyx_L3_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L3_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     /*try:*/ {
       {
         __Pyx_PyThreadState_declare
         __Pyx_PyThreadState_assign
-        __Pyx_ExceptionSave(&__pyx_t_6, &__pyx_t_7, &__pyx_t_8);
-        __Pyx_XGOTREF(__pyx_t_6);
-        __Pyx_XGOTREF(__pyx_t_7);
-        __Pyx_XGOTREF(__pyx_t_8);
+        __Pyx_ExceptionSave(&__pyx_t_9, &__pyx_t_10, &__pyx_t_11);
+        __Pyx_XGOTREF(__pyx_t_9);
+        __Pyx_XGOTREF(__pyx_t_10);
+        __Pyx_XGOTREF(__pyx_t_11);
         /*try:*/ {
 
-          /* "tsukuyomichan_talksoft.pyx":257
+          /* "tsukuyomichan_talksoft.pyx":259
  *         cdef tuple model
  *         with torch.no_grad():
  *             model = self.acoustic_model(text)             # <<<<<<<<<<<<<<
@@ -6698,94 +6814,94 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
  *                 mel = self.config.scaler.transform(model[2].cpu())
  */
           __Pyx_INCREF(__pyx_v_self->acoustic_model);
-          __pyx_t_3 = __pyx_v_self->acoustic_model; __pyx_t_2 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_2)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_2);
+          __pyx_t_2 = __pyx_v_self->acoustic_model; __pyx_t_4 = NULL;
+          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+            if (likely(__pyx_t_4)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+              __Pyx_INCREF(__pyx_t_4);
               __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
+              __Pyx_DECREF_SET(__pyx_t_2, function);
             }
           }
-          __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_text) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_text);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L7_error)
+          __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_text) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_text);
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (!(likely(PyTuple_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 257, __pyx_L7_error)
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (!(likely(PyTuple_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 259, __pyx_L7_error)
           __pyx_v_model = ((PyObject*)__pyx_t_1);
           __pyx_t_1 = 0;
 
-          /* "tsukuyomichan_talksoft.pyx":258
+          /* "tsukuyomichan_talksoft.pyx":260
  *         with torch.no_grad():
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:             # <<<<<<<<<<<<<<
  *                 mel = self.config.scaler.transform(model[2].cpu())
  *             else:
  */
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->config, __pyx_n_s_use_vocoder_stats_flag); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 258, __pyx_L7_error)
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->config, __pyx_n_s_use_vocoder_stats_flag); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 258, __pyx_L7_error)
+          __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 260, __pyx_L7_error)
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (__pyx_t_9) {
+          if (__pyx_t_12) {
 
-            /* "tsukuyomichan_talksoft.pyx":259
+            /* "tsukuyomichan_talksoft.pyx":261
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:
  *                 mel = self.config.scaler.transform(model[2].cpu())             # <<<<<<<<<<<<<<
  *             else:
  *                 mel = model[1]
  */
-            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->config, __pyx_n_s_scaler); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 259, __pyx_L7_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_transform); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 259, __pyx_L7_error)
+            __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->config, __pyx_n_s_scaler); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_transform); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 261, __pyx_L7_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             if (unlikely(__pyx_v_model == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 259, __pyx_L7_error)
+              __PYX_ERR(0, 261, __pyx_L7_error)
             }
-            __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_model, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 259, __pyx_L7_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_cpu); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 259, __pyx_L7_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
-              __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_10);
-              if (likely(__pyx_t_4)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-                __Pyx_INCREF(__pyx_t_4);
-                __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_10, function);
-              }
-            }
-            __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_10);
-            __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-            if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 259, __pyx_L7_error)
+            __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_model, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L7_error)
+            __Pyx_GOTREF(__pyx_t_7);
+            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_cpu); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_10 = NULL;
-            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-              __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_2);
-              if (likely(__pyx_t_10)) {
-                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-                __Pyx_INCREF(__pyx_t_10);
+            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+            __pyx_t_7 = NULL;
+            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+              __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_3);
+              if (likely(__pyx_t_7)) {
+                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+                __Pyx_INCREF(__pyx_t_7);
                 __Pyx_INCREF(function);
-                __Pyx_DECREF_SET(__pyx_t_2, function);
+                __Pyx_DECREF_SET(__pyx_t_3, function);
               }
             }
-            __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_10, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
-            __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+            __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+            __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L7_error)
+            __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L7_error)
-            __Pyx_GOTREF(__pyx_t_1);
+            __pyx_t_3 = NULL;
+            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+              __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+              if (likely(__pyx_t_3)) {
+                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+                __Pyx_INCREF(__pyx_t_3);
+                __Pyx_INCREF(function);
+                __Pyx_DECREF_SET(__pyx_t_4, function);
+              }
+            }
+            __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2);
+            __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+            if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L7_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
             __pyx_v_mel = __pyx_t_1;
             __pyx_t_1 = 0;
 
-            /* "tsukuyomichan_talksoft.pyx":258
+            /* "tsukuyomichan_talksoft.pyx":260
  *         with torch.no_grad():
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:             # <<<<<<<<<<<<<<
@@ -6795,7 +6911,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
             goto __pyx_L13;
           }
 
-          /* "tsukuyomichan_talksoft.pyx":261
+          /* "tsukuyomichan_talksoft.pyx":263
  *                 mel = self.config.scaler.transform(model[2].cpu())
  *             else:
  *                 mel = model[1]             # <<<<<<<<<<<<<<
@@ -6805,85 +6921,86 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
           /*else*/ {
             if (unlikely(__pyx_v_model == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 261, __pyx_L7_error)
+              __PYX_ERR(0, 263, __pyx_L7_error)
             }
-            __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_model, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_model, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
             __pyx_v_mel = __pyx_t_1;
             __pyx_t_1 = 0;
           }
           __pyx_L13:;
 
-          /* "tsukuyomichan_talksoft.pyx":256
- *     cpdef generate_voice(self, str text = ""):
+          /* "tsukuyomichan_talksoft.pyx":258
+ *         torch.manual_seed(seed)
  *         cdef tuple model
  *         with torch.no_grad():             # <<<<<<<<<<<<<<
  *             model = self.acoustic_model(text)
  *             if self.config.use_vocoder_stats_flag:
  */
         }
-        __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         goto __pyx_L12_try_end;
         __pyx_L7_error:;
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         /*except:*/ {
           __Pyx_AddTraceback("tsukuyomichan_talksoft.TsukuyomichanTalksoft.generate_voice", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_3) < 0) __PYX_ERR(0, 256, __pyx_L9_except_error)
+          if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_4, &__pyx_t_2) < 0) __PYX_ERR(0, 258, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_GOTREF(__pyx_t_4);
           __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_3 = PyTuple_Pack(3, __pyx_t_1, __pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_10 = PyTuple_Pack(3, __pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 256, __pyx_L9_except_error)
-          __Pyx_GOTREF(__pyx_t_10);
-          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 256, __pyx_L9_except_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          if (__pyx_t_9 < 0) __PYX_ERR(0, 256, __pyx_L9_except_error)
-          __pyx_t_12 = ((!(__pyx_t_9 != 0)) != 0);
-          if (__pyx_t_12) {
+          __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL);
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 258, __pyx_L9_except_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_13);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          if (__pyx_t_12 < 0) __PYX_ERR(0, 258, __pyx_L9_except_error)
+          __pyx_t_14 = ((!(__pyx_t_12 != 0)) != 0);
+          if (__pyx_t_14) {
             __Pyx_GIVEREF(__pyx_t_1);
-            __Pyx_GIVEREF(__pyx_t_2);
-            __Pyx_XGIVEREF(__pyx_t_3);
-            __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_2, __pyx_t_3);
-            __pyx_t_1 = 0; __pyx_t_2 = 0; __pyx_t_3 = 0; 
-            __PYX_ERR(0, 256, __pyx_L9_except_error)
+            __Pyx_GIVEREF(__pyx_t_4);
+            __Pyx_XGIVEREF(__pyx_t_2);
+            __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_4, __pyx_t_2);
+            __pyx_t_1 = 0; __pyx_t_4 = 0; __pyx_t_2 = 0; 
+            __PYX_ERR(0, 258, __pyx_L9_except_error)
           }
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           goto __pyx_L8_exception_handled;
         }
         __pyx_L9_except_error:;
-        __Pyx_XGIVEREF(__pyx_t_6);
-        __Pyx_XGIVEREF(__pyx_t_7);
-        __Pyx_XGIVEREF(__pyx_t_8);
-        __Pyx_ExceptionReset(__pyx_t_6, __pyx_t_7, __pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_XGIVEREF(__pyx_t_10);
+        __Pyx_XGIVEREF(__pyx_t_11);
+        __Pyx_ExceptionReset(__pyx_t_9, __pyx_t_10, __pyx_t_11);
         goto __pyx_L1_error;
         __pyx_L8_exception_handled:;
-        __Pyx_XGIVEREF(__pyx_t_6);
-        __Pyx_XGIVEREF(__pyx_t_7);
-        __Pyx_XGIVEREF(__pyx_t_8);
-        __Pyx_ExceptionReset(__pyx_t_6, __pyx_t_7, __pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_XGIVEREF(__pyx_t_10);
+        __Pyx_XGIVEREF(__pyx_t_11);
+        __Pyx_ExceptionReset(__pyx_t_9, __pyx_t_10, __pyx_t_11);
         __pyx_L12_try_end:;
       }
     }
     /*finally:*/ {
       /*normal exit:*/{
-        if (__pyx_t_5) {
-          __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__7, NULL);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 256, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_8);
+        if (__pyx_t_8) {
+          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__7, NULL);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 258, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_11);
+          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         }
         goto __pyx_L6;
       }
@@ -6891,112 +7008,112 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
     }
     goto __pyx_L17;
     __pyx_L3_error:;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     goto __pyx_L1_error;
     __pyx_L17:;
   }
 
-  /* "tsukuyomichan_talksoft.pyx":262
+  /* "tsukuyomichan_talksoft.pyx":264
  *             else:
  *                 mel = model[1]
  *         cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()             # <<<<<<<<<<<<<<
  *         return wav
  */
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->vocoder, __pyx_n_s_inference); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  if (unlikely(!__pyx_v_mel)) { __Pyx_RaiseUnboundLocalError("mel"); __PYX_ERR(0, 262, __pyx_L1_error) }
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_13);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-      __Pyx_INCREF(__pyx_t_14);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->vocoder, __pyx_n_s_inference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  if (unlikely(!__pyx_v_mel)) { __Pyx_RaiseUnboundLocalError("mel"); __PYX_ERR(0, 264, __pyx_L1_error) }
+  __pyx_t_15 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_15)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_15);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_13, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_4 = (__pyx_t_14) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_14, __pyx_v_mel) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_v_mel);
-  __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_view); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_13);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-      __Pyx_INCREF(__pyx_t_4);
+  __pyx_t_7 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_15, __pyx_v_mel) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_mel);
+  __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_view); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_13, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_10 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_4, __pyx_int_neg_1) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_int_neg_1);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_cpu); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_13);
-    if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-      __Pyx_INCREF(__pyx_t_10);
+  __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_int_neg_1) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_int_neg_1);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_cpu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_13, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_10) : __Pyx_PyObject_CallNoArg(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_detach); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_detach); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_13);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_13, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_13);
+  __pyx_t_4 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_numpy); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_13);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-      __Pyx_INCREF(__pyx_t_2);
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_numpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_13, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 262, __pyx_L1_error)
-  __pyx_v_wav = ((PyArrayObject *)__pyx_t_3);
-  __pyx_t_3 = 0;
+  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_v_wav = ((PyArrayObject *)__pyx_t_2);
+  __pyx_t_2 = 0;
 
-  /* "tsukuyomichan_talksoft.pyx":263
+  /* "tsukuyomichan_talksoft.pyx":265
  *                 mel = model[1]
  *         cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
  *         return wav             # <<<<<<<<<<<<<<
@@ -7009,9 +7126,9 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
   /* "tsukuyomichan_talksoft.pyx":254
  *         return vocoder
  * 
- *     cpdef generate_voice(self, str text = ""):             # <<<<<<<<<<<<<<
- *         cdef tuple model
- *         with torch.no_grad():
+ *     cpdef generate_voice(self, str text = "",int seed = 0):             # <<<<<<<<<<<<<<
+ *         np.random.seed(seed)
+ *         torch.manual_seed(seed)
  */
 
   /* function exit code */
@@ -7020,9 +7137,9 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_14);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_15);
   __Pyx_AddTraceback("tsukuyomichan_talksoft.TsukuyomichanTalksoft.generate_voice", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -7038,6 +7155,7 @@ static PyObject *__pyx_f_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_genera
 static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3generate_voice(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3generate_voice(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_text = 0;
+  int __pyx_v_seed;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7045,13 +7163,15 @@ static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3gene
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("generate_voice (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_text,0};
-    PyObject* values[1] = {0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_text,&__pyx_n_s_seed,0};
+    PyObject* values[2] = {0,0};
     values[0] = ((PyObject*)__pyx_kp_s__8);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -7064,12 +7184,20 @@ static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3gene
           PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_text);
           if (value) { values[0] = value; kw_args--; }
         }
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_seed);
+          if (value) { values[1] = value; kw_args--; }
+        }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generate_voice") < 0)) __PYX_ERR(0, 254, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -7077,17 +7205,22 @@ static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3gene
       }
     }
     __pyx_v_text = ((PyObject*)values[0]);
+    if (values[1]) {
+      __pyx_v_seed = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_seed == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
+    } else {
+      __pyx_v_seed = ((int)0);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_voice", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 254, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("generate_voice", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 254, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tsukuyomichan_talksoft.TsukuyomichanTalksoft.generate_voice", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_text), (&PyString_Type), 1, "text", 1))) __PYX_ERR(0, 254, __pyx_L1_error)
-  __pyx_r = __pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2generate_voice(((struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *)__pyx_v_self), __pyx_v_text);
+  __pyx_r = __pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2generate_voice(((struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *)__pyx_v_self), __pyx_v_text, __pyx_v_seed);
 
   /* function exit code */
   goto __pyx_L0;
@@ -7098,7 +7231,7 @@ static PyObject *__pyx_pw_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_3gene
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2generate_voice(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, PyObject *__pyx_v_text) {
+static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2generate_voice(struct __pyx_obj_22tsukuyomichan_talksoft_TsukuyomichanTalksoft *__pyx_v_self, PyObject *__pyx_v_text, int __pyx_v_seed) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7108,8 +7241,9 @@ static PyObject *__pyx_pf_22tsukuyomichan_talksoft_21TsukuyomichanTalksoft_2gene
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("generate_voice", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2.__pyx_n = 1;
+  __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.text = __pyx_v_text;
+  __pyx_t_2.seed = __pyx_v_seed;
   __pyx_t_1 = __pyx_vtabptr_22tsukuyomichan_talksoft_TsukuyomichanTalksoft->generate_voice(__pyx_v_self, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 254, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -9157,6 +9291,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_logging, __pyx_k_logging, sizeof(__pyx_k_logging), 0, 0, 1, 1},
   {&__pyx_n_s_m, __pyx_k_m, sizeof(__pyx_k_m), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_manual_seed, __pyx_k_manual_seed, sizeof(__pyx_k_manual_seed), 0, 0, 1, 1},
   {&__pyx_n_s_map_location, __pyx_k_map_location, sizeof(__pyx_k_map_location), 0, 0, 1, 1},
   {&__pyx_n_s_math, __pyx_k_math, sizeof(__pyx_k_math), 0, 0, 1, 1},
   {&__pyx_n_s_maxlenratio, __pyx_k_maxlenratio, sizeof(__pyx_k_maxlenratio), 0, 0, 1, 1},
@@ -9193,6 +9328,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_randn, __pyx_k_randn, sizeof(__pyx_k_randn), 0, 0, 1, 1},
+  {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -9201,6 +9337,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_remove_weight_norm_2, __pyx_k_remove_weight_norm_2, sizeof(__pyx_k_remove_weight_norm_2), 0, 0, 1, 1},
   {&__pyx_n_s_residual_channels, __pyx_k_residual_channels, sizeof(__pyx_k_residual_channels), 0, 0, 1, 1},
   {&__pyx_n_s_scaler, __pyx_k_scaler, sizeof(__pyx_k_scaler), 0, 0, 1, 1},
+  {&__pyx_n_s_seed, __pyx_k_seed, sizeof(__pyx_k_seed), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
@@ -13315,6 +13452,202 @@ bad:
 #endif
 
 /* CIntFromPy */
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif
+    const int neg_one = (int) -1, const_zero = (int) 0;
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic pop
+#endif
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(int) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (int) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (int) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(int, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(int) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) >= 2 * PyLong_SHIFT) {
+                            return (int) (((((int)digits[1]) << PyLong_SHIFT) | (int)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(int) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) >= 3 * PyLong_SHIFT) {
+                            return (int) (((((((int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(int) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) >= 4 * PyLong_SHIFT) {
+                            return (int) (((((((((int)digits[3]) << PyLong_SHIFT) | (int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (int) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(int) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (int) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(int) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) - 1 > 2 * PyLong_SHIFT) {
+                            return (int) (((int)-1)*(((((int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(int) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) - 1 > 2 * PyLong_SHIFT) {
+                            return (int) ((((((int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(int) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) - 1 > 3 * PyLong_SHIFT) {
+                            return (int) (((int)-1)*(((((((int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(int) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) - 1 > 3 * PyLong_SHIFT) {
+                            return (int) ((((((((int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(int) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) - 1 > 4 * PyLong_SHIFT) {
+                            return (int) (((int)-1)*(((((((((int)digits[3]) << PyLong_SHIFT) | (int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(int) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(int) - 1 > 4 * PyLong_SHIFT) {
+                            return (int) ((((((((((int)digits[3]) << PyLong_SHIFT) | (int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(int) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(int, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            int val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (int) -1;
+        }
+    } else {
+        int val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (int) -1;
+        val = __Pyx_PyInt_As_int(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to int");
+    return (int) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to int");
+    return (int) -1;
+}
+
+/* CIntFromPy */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
@@ -13511,6 +13844,44 @@ raise_neg_overflow:
 }
 
 /* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif
+    const int neg_one = (int) -1, const_zero = (int) 0;
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic pop
+#endif
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntToPy */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
@@ -13546,202 +13917,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
         return _PyLong_FromByteArray(bytes, sizeof(long),
                                      little, !is_unsigned);
     }
-}
-
-/* CIntFromPy */
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wconversion"
-#endif
-    const int neg_one = (int) -1, const_zero = (int) 0;
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic pop
-#endif
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (int) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (int) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int, digit, digits[0])
-                case 2:
-                    if (8 * sizeof(int) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) >= 2 * PyLong_SHIFT) {
-                            return (int) (((((int)digits[1]) << PyLong_SHIFT) | (int)digits[0]));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(int) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) >= 3 * PyLong_SHIFT) {
-                            return (int) (((((((int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0]));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(int) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) >= 4 * PyLong_SHIFT) {
-                            return (int) (((((((((int)digits[3]) << PyLong_SHIFT) | (int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0]));
-                        }
-                    }
-                    break;
-            }
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-#else
-            {
-                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
-                if (unlikely(result < 0))
-                    return (int) -1;
-                if (unlikely(result == 1))
-                    goto raise_neg_overflow;
-            }
-#endif
-            if (sizeof(int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(int, unsigned long, PyLong_AsUnsignedLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(int, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
-#endif
-            }
-        } else {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (int) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +digits[0])
-                case -2:
-                    if (8 * sizeof(int) - 1 > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) - 1 > 2 * PyLong_SHIFT) {
-                            return (int) (((int)-1)*(((((int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
-                        }
-                    }
-                    break;
-                case 2:
-                    if (8 * sizeof(int) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) - 1 > 2 * PyLong_SHIFT) {
-                            return (int) ((((((int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
-                        }
-                    }
-                    break;
-                case -3:
-                    if (8 * sizeof(int) - 1 > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) - 1 > 3 * PyLong_SHIFT) {
-                            return (int) (((int)-1)*(((((((int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(int) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) - 1 > 3 * PyLong_SHIFT) {
-                            return (int) ((((((((int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
-                        }
-                    }
-                    break;
-                case -4:
-                    if (8 * sizeof(int) - 1 > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) - 1 > 4 * PyLong_SHIFT) {
-                            return (int) (((int)-1)*(((((((((int)digits[3]) << PyLong_SHIFT) | (int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(int) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(int, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(int) - 1 > 4 * PyLong_SHIFT) {
-                            return (int) ((((((((((int)digits[3]) << PyLong_SHIFT) | (int)digits[2]) << PyLong_SHIFT) | (int)digits[1]) << PyLong_SHIFT) | (int)digits[0])));
-                        }
-                    }
-                    break;
-            }
-#endif
-            if (sizeof(int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(int, long, PyLong_AsLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(int, PY_LONG_LONG, PyLong_AsLongLong(x))
-#endif
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            int val;
-            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (int) -1;
-        }
-    } else {
-        int val;
-        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (int) -1;
-        val = __Pyx_PyInt_As_int(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to int");
-    return (int) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to int");
-    return (int) -1;
 }
 
 /* FastTypeChecks */
