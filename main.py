@@ -9,7 +9,7 @@ import soundfile as sf
 #非同期でインポート
 pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="thread")
 def talkinit():
-    from tsukuyomichan_talksoft import TsukuyomichanTalksoft
+    from python_talksoft import TsukuyomichanTalksoft
     return TsukuyomichanTalksoft(model_version='v.1.2.0')
 future = pool.submit(talkinit)
 # config

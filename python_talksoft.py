@@ -230,7 +230,7 @@ class TsukuyomichanTalksoft:
     
     def get_acoustic_model(self):
         acoustic_model = Text2Speech(
-            model_dir=f"onnx_models\TSUKUYOMICHAN_MODEL_{self.model_version}",
+            model_dir=f"onnx_models\TSUKUYOMICHAN_MODEL_{self.model_version}"
         )
         acoustic_model.spc2wav = None
         return acoustic_model
@@ -244,12 +244,6 @@ class TsukuyomichanTalksoft:
         np.random.seed(seed)
         torch.manual_seed(seed)
         with torch.no_grad():
-            model= self.acoustic_model(text)
-            if self.config.use_vocoder_stats_flag:
-                #mel = self.config.scaler.transform(model["wav"].cpu())
-                wav = model["wav"]
-            else:
-                wav = model["wav"]
-            #wav = self.vocoder.inference(mel)
-        #wav = wav.view(-1).cpu().detach().numpy()
+            mel = self.acoustic_model(text)["feat_gen"]
+        wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
         return wav  
