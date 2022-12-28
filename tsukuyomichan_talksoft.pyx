@@ -1,8 +1,9 @@
-from espnet2.bin.tts_inference import Text2Speech
+from espnet_onnx.tts.tts_model import Text2Speech
 
 import os
 import yaml
 from tts_config import TTSConfig
+import torch
 
 import logging
 import math
@@ -15,8 +16,7 @@ from parallel_wavegan.layers import WaveNetResidualBlock as ResidualBlock
 from parallel_wavegan.layers import upsample
 from parallel_wavegan import models
 
-from tts_config import TTSConfig
-import torch
+
     
 class ParallelWaveGANGenerator(torch.nn.Module):
     """Parallel WaveGAN Generator module."""
@@ -226,22 +226,16 @@ cdef class TsukuyomichanTalksoft:
     cdef config
     cdef acoustic_model
     cdef vocoder
+    cdef model_version
     def __init__(self,str model_version='v.1.2.0'):
+        self.model_version = model_version
         self.config = TTSConfig.get_config_from_version(model_version)
         self.acoustic_model = self.get_acoustic_model()
         self.vocoder = self.get_vocoder()
     
     cdef get_acoustic_model(self):
         acoustic_model = Text2Speech(
-            self.config.acoustic_model_config_path,
-            self.config.acoustic_model_path,
-            device=self.config.device,
-            threshold=0.5,
-            minlenratio=0.0,
-            maxlenratio=10.0,
-            use_att_constraint=False,
-            backward_window=1,
-            forward_window=3
+            model_dir=f"onnx_models\TSUKUYOMICHAN_MODEL_{self.model_version}"
         )
         acoustic_model.spc2wav = None
         return acoustic_model
@@ -252,14 +246,11 @@ cdef class TsukuyomichanTalksoft:
         return vocoder
 
     cpdef generate_voice(self, str text = "やぁ",int seed = 0):
+        cdef cnp.ndarray mel
+        cdef cnp.ndarray wav
         np.random.seed(seed)
         torch.manual_seed(seed)
-        cdef dict model
         with torch.no_grad():
-            model = self.acoustic_model(text)
-            if self.config.use_vocoder_stats_flag:
-                mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
-            else:
-                mel = model["feat_gen"]
-        cdef cnp.ndarray wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
+            mel = self.acoustic_model(text)["feat_gen"]
+        wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
         return wav  
