@@ -29,6 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python setup.py build_ext --inplace
     - name: Set the site package path to the environment variables
       run: python -c "import site; print(f'site_package_path={site.getsitepackages()[0]}')" >> $GITHUB_ENV
     - name: Set the Python package cache
