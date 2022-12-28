@@ -6,3 +6,4 @@ gdown
 espnet_onnx
 espnet_model_zoo
 onnx
+torchaudio

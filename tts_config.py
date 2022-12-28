@@ -16,7 +16,6 @@ class TTSConfig(NamedTuple):
     model_url: str
     model_path: str
     acoustic_model_path: str
-    onnx_acoustic_model_path: str
     acoustic_model_config_path: str
     acoustic_model_stats_path: str
     vocoder_model_path: str
@@ -50,7 +49,6 @@ class TTSConfig(NamedTuple):
         model_path = f"{download_path}/TSUKUYOMICHAN_MODEL_{model_version}"
         onnx_model_path = f"{onnx_path}/TSUKUYOMICHAN_MODEL_{model_version}"
         acoustic_model_path = f"{model_path}/ACOUSTIC_MODEL/{acoustic_name}"
-        onnx_acoustic_model_path = f"{onnx_model_path}/ACOUSTIC_MODEL/{onnx_acoustic_name}"
         acoustic_model_config_path = f"{model_path}/ACOUSTIC_MODEL/config.yaml"
         acoustic_model_stats_path = f"{model_path}/ACOUSTIC_MODEL/feats_stats.npz"
         vocoder_model_path = f"{model_path}/VOCODER/{vocoder_name}"
@@ -61,7 +59,7 @@ class TTSConfig(NamedTuple):
         if not os.path.exists(model_path):
             cls.download_model(download_path, model_path, model_url)
             cls.update_acoustic_model_config(acoustic_model_config_path, acoustic_model_stats_path)
-        if not os.path.exists(onnx_acoustic_model_path):
+        if not os.path.exists(onnx_model_path):
             m = TTSModelExport(onnx_path)
             acoustic_model = Text2Speech(
                 acoustic_model_config_path,
@@ -83,7 +81,6 @@ class TTSConfig(NamedTuple):
                          model_url=model_url,                 
                          model_path=model_path,
                          acoustic_model_path=acoustic_model_path,
-                         onnx_acoustic_model_path=onnx_acoustic_model_path,
                          acoustic_model_config_path=acoustic_model_config_path,
                          acoustic_model_stats_path=acoustic_model_stats_path,
                          vocoder_model_path=vocoder_model_path,
