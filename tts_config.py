@@ -7,7 +7,8 @@ import torch
 import yaml
 from parallel_wavegan.utils import read_hdf5
 from sklearn.preprocessing import StandardScaler
-
+from espnet_onnx.export import TTSModelExport
+from espnet2.bin.tts_inference import Text2Speech
 
 class TTSConfig(NamedTuple):
     download_path: str
@@ -15,6 +16,7 @@ class TTSConfig(NamedTuple):
     model_url: str
     model_path: str
     acoustic_model_path: str
+    onnx_acoustic_model_path: str
     acoustic_model_config_path: str
     acoustic_model_stats_path: str
     vocoder_model_path: str
@@ -24,26 +26,31 @@ class TTSConfig(NamedTuple):
     device: str
 
     @classmethod
-    def get_config_from_version(cls, model_version: str, download_path: str = './models'):
+    def get_config_from_version(cls, model_version: str, download_path: str = './models',onnx_path:str = "./onnx_models"):
         if model_version == 'v.1.0.0':
             model_url = 'https://drive.google.com/uc?id=1fuI0WrISJt5Gf9rNepSJFIAlupeeC8_V'
             acoustic_name = '200epoch.pth'
+            onnx_acoustic_name = 'postdecoder.onnx'
             vocoder_name = 'checkpoint-400000steps.pkl'
             use_vocoder_stats_flag = False
         elif model_version == 'v.1.1.0':
             model_url = 'https://drive.google.com/uc?id=1FyDR366PvdWejWI0WJ9rNaCAEiiLewPv'
             acoustic_name = '200epoch.pth'
+            onnx_acoustic_name = 'postdecoder.onnx'
             vocoder_name = 'checkpoint-300000steps.pkl'
             use_vocoder_stats_flag = False
         elif model_version == 'v.1.2.0':
             model_url = 'https://drive.google.com/uc?id=1scfGUohN2QTT4w6XTrKX2FPvm8yuhA1f'
             acoustic_name = '200epoch.pth'
+            onnx_acoustic_name = 'postdecoder.onnx'
             vocoder_name = 'checkpoint-300000steps.pkl'
             use_vocoder_stats_flag = True
         else:
             raise Exception("存在しないモデルバージョンです")
         model_path = f"{download_path}/TSUKUYOMICHAN_MODEL_{model_version}"
+        onnx_model_path = f"{onnx_path}/TSUKUYOMICHAN_MODEL_{model_version}"
         acoustic_model_path = f"{model_path}/ACOUSTIC_MODEL/{acoustic_name}"
+        onnx_acoustic_model_path = f"{onnx_model_path}/ACOUSTIC_MODEL/{onnx_acoustic_name}"
         acoustic_model_config_path = f"{model_path}/ACOUSTIC_MODEL/config.yaml"
         acoustic_model_stats_path = f"{model_path}/ACOUSTIC_MODEL/feats_stats.npz"
         vocoder_model_path = f"{model_path}/VOCODER/{vocoder_name}"
@@ -54,15 +61,29 @@ class TTSConfig(NamedTuple):
         if not os.path.exists(model_path):
             cls.download_model(download_path, model_path, model_url)
             cls.update_acoustic_model_config(acoustic_model_config_path, acoustic_model_stats_path)
-
+        if not os.path.exists(onnx_acoustic_model_path):
+            m = TTSModelExport(onnx_path)
+            acoustic_model = Text2Speech(
+                acoustic_model_config_path,
+                acoustic_model_path,
+                device='cuda' if torch.cuda.is_available() else 'cpu',
+                threshold=0.5,
+                minlenratio=0.0,
+                maxlenratio=10.0,
+                use_att_constraint=False,
+                backward_window=1,
+                forward_window=3
+            )
+            m.export(acoustic_model,f"TSUKUYOMICHAN_MODEL_{model_version}",quantize=True)
         scaler = cls.get_scaler(vocoder_stats_path) if use_vocoder_stats_flag else None
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         return TTSConfig(download_path=download_path,
                          model_version=model_version,
-                         model_url=model_url,
+                         model_url=model_url,                 
                          model_path=model_path,
                          acoustic_model_path=acoustic_model_path,
+                         onnx_acoustic_model_path=onnx_acoustic_model_path,
                          acoustic_model_config_path=acoustic_model_config_path,
                          acoustic_model_stats_path=acoustic_model_stats_path,
                          vocoder_model_path=vocoder_model_path,

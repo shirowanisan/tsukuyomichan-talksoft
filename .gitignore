@@ -7,3 +7,4 @@ output
 .vscode
 .github
 build
+debug.py

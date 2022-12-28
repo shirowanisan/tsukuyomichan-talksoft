@@ -1,4 +1,4 @@
-from espnet2.bin.tts_inference import Text2Speech
+from espnet_onnx.tts.tts_model import Text2Speech
 
 import os
 import yaml
@@ -223,21 +223,14 @@ def load_model(checkpoint, config=None):
 
 class TsukuyomichanTalksoft:
     def __init__(self, model_version='v.1.2.0'):
+        self.model_version = model_version
         self.config: TTSConfig = TTSConfig.get_config_from_version(model_version)
         self.acoustic_model = self.get_acoustic_model()
         self.vocoder = self.get_vocoder()
     
     def get_acoustic_model(self):
         acoustic_model = Text2Speech(
-            self.config.acoustic_model_config_path,
-            self.config.acoustic_model_path,
-            device=self.config.device,
-            threshold=0.5,
-            minlenratio=0.0,
-            maxlenratio=10.0,
-            use_att_constraint=False,
-            backward_window=1,
-            forward_window=3
+            model_dir=f"onnx_models\TSUKUYOMICHAN_MODEL_{self.model_version}",
         )
         acoustic_model.spc2wav = None
         return acoustic_model
@@ -253,9 +246,10 @@ class TsukuyomichanTalksoft:
         with torch.no_grad():
             model= self.acoustic_model(text)
             if self.config.use_vocoder_stats_flag:
-                mel = self.config.scaler.transform(model["feat_gen_denorm"].cpu())
+                #mel = self.config.scaler.transform(model["wav"].cpu())
+                wav = model["wav"]
             else:
-                mel = model["feat_gen"]
-            wav = self.vocoder.inference(mel)
-        wav = wav.view(-1).cpu().detach().numpy()
+                wav = model["wav"]
+            #wav = self.vocoder.inference(mel)
+        #wav = wav.view(-1).cpu().detach().numpy()
         return wav  

@@ -1,5 +1,8 @@
-espnet==0.10.6
+espnet
 parallel_wavegan==0.5.5
 pyopenjtalk==0.2.0
 simpleaudio==1.0.4
 gdown
+espnet_onnx
+espnet_model_zoo
+onnx
