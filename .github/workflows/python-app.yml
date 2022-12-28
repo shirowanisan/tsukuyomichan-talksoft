@@ -29,6 +29,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Set the site package path to the environment variables
+      run: python -c "import site; print(f'site_package_path={site.getsitepackages()[0]}')" >> $GITHUB_ENV
+    - name: Set the Python package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.site_package_path }}
+        key: ${{ runner.os }}-pip-${{ env.site_package_path }}-${{ hashFiles('**/requirements.txt') }}
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
