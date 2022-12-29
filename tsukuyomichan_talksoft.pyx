@@ -246,11 +246,9 @@ cdef class TsukuyomichanTalksoft:
         return vocoder
 
     cpdef generate_voice(self, str text = "やぁ",int seed = 0):
-        cdef cnp.ndarray mel
         cdef cnp.ndarray wav
         np.random.seed(seed)
         torch.manual_seed(seed)
         with torch.no_grad():
-            mel = self.acoustic_model(text)["feat_gen"]
-        wav = self.vocoder.inference(mel).view(-1).cpu().detach().numpy()
+            wav = self.vocoder.inference(self.acoustic_model(text)["feat_gen"]).view(-1).cpu().detach().numpy()
         return wav  
