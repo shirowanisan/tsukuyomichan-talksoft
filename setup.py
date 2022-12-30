@@ -1,6 +1,5 @@
-from distutils.core import setup, Extension
-from Cython.Build import cythonize
-from numpy import get_include
+import setuptools
+
 __version__ = '0.0.1dev1'
 
 def _parse_requirements(path):
@@ -12,11 +11,10 @@ def _parse_requirements(path):
         ]
 
 requirements = _parse_requirements('requirements.txt')
-ext = Extension("tsukuyomichan_talksoft", sources=["tsukuyomichan_talksoft.pyx"], include_dirs=['.', get_include()],language_level=3)
-setup(
+
+setuptools.setup(
     name='tsukuyomichan_talksoft',
     version=__version__,
-    py_modules=['tts_config'],
+    py_modules=['tsukuyomichan_talksoft', 'tts_config'],
     install_requires=requirements,
-    ext_modules=cythonize([ext])
 )
