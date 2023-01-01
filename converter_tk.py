@@ -130,7 +130,7 @@ class ParallelWaveGANGenerator(torch.nn.Module):
         if use_weight_norm:
             self.apply_weight_norm()
             
-    def forward(self, x, c=None):
+    def forward(self, x:torch.Tensor=None, c:torch.Tensor=None):
         """Calculate forward propagation.
 
         Args:
@@ -144,7 +144,7 @@ class ParallelWaveGANGenerator(torch.nn.Module):
         # perform upsampling
         if c is not None and self.upsample_net is not None:
             c = self.upsample_net(c)
-            
+            assert c.size(-1) == x.size(-1)
 
         # encode to hidden representation
         x = self.first_conv(x)
@@ -179,7 +179,7 @@ class ParallelWaveGANGenerator(torch.nn.Module):
 
         self.apply(_remove_weight_norm)
 
-    def inference(self, c=None):
+    def inference(self, c=None,x=None):
         """Perform inference.
 
         Args:
@@ -190,8 +190,8 @@ class ParallelWaveGANGenerator(torch.nn.Module):
             Tensor: Output tensor (T, out_channels)
 
         """    
-        x = torch.randn(1, 1, len(c) * self.upsample_factor)#.to(next(self.parameters()).device)
-        c = torch.tensor(c, dtype=torch.float)#.to(next(self.parameters()).device)
+        x = torch.randn(1, 1, len(c) * self.upsample_factor)
+        c = torch.tensor(c, dtype=torch.float)
         c = c.transpose(1, 0).unsqueeze(0)
         c = torch.nn.ReplicationPad1d(self.aux_context_window)(c)
         return self.forward(x, c).squeeze(0).transpose(1, 0)

@@ -10,6 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from espnet_onnx.export import TTSModelExport
 from espnet2.bin.tts_inference import Text2Speech
 
+
 class TTSConfig(NamedTuple):
     download_path: str
     model_version: str
@@ -20,46 +21,51 @@ class TTSConfig(NamedTuple):
     acoustic_model_stats_path: str
     vocoder_model_path: str
     vocoder_stats_path: str
+    onnx_model_path: str
+    onnx_vocoder_model_path: str
     use_vocoder_stats_flag: bool
     scaler: Optional[StandardScaler]
     device: str
 
     @classmethod
-    def get_config_from_version(cls, model_version: str, download_path: str = './models',onnx_path:str = "./onnx_models"):
+    def get_config_from_version(cls, model_version: str, download_path: str = './models', onnx_path: str = "./onnx_models"):
         if model_version == 'v.1.0.0':
             model_url = 'https://drive.google.com/uc?id=1fuI0WrISJt5Gf9rNepSJFIAlupeeC8_V'
             acoustic_name = '200epoch.pth'
-            onnx_acoustic_name = 'postdecoder.onnx'
+            onnx_vocoder_name = 'ParallelWaveGANGenerator.onnx'
             vocoder_name = 'checkpoint-400000steps.pkl'
             use_vocoder_stats_flag = False
         elif model_version == 'v.1.1.0':
             model_url = 'https://drive.google.com/uc?id=1FyDR366PvdWejWI0WJ9rNaCAEiiLewPv'
             acoustic_name = '200epoch.pth'
-            onnx_acoustic_name = 'postdecoder.onnx'
+            onnx_vocoder_name = 'ParallelWaveGANGenerator.onnx'
             vocoder_name = 'checkpoint-300000steps.pkl'
             use_vocoder_stats_flag = False
         elif model_version == 'v.1.2.0':
             model_url = 'https://drive.google.com/uc?id=1scfGUohN2QTT4w6XTrKX2FPvm8yuhA1f'
             acoustic_name = '200epoch.pth'
-            onnx_acoustic_name = 'postdecoder.onnx'
+            onnx_vocoder_name = 'ParallelWaveGANGenerator.onnx'
             vocoder_name = 'checkpoint-300000steps.pkl'
             use_vocoder_stats_flag = True
         else:
             raise Exception("存在しないモデルバージョンです")
         model_path = f"{download_path}/TSUKUYOMICHAN_MODEL_{model_version}"
-        onnx_model_path = f"{onnx_path}/TSUKUYOMICHAN_MODEL_{model_version}"
         acoustic_model_path = f"{model_path}/ACOUSTIC_MODEL/{acoustic_name}"
         acoustic_model_config_path = f"{model_path}/ACOUSTIC_MODEL/config.yaml"
         acoustic_model_stats_path = f"{model_path}/ACOUSTIC_MODEL/feats_stats.npz"
         vocoder_model_path = f"{model_path}/VOCODER/{vocoder_name}"
         vocoder_stats_path = f"{model_path}/VOCODER/stats.h5"
+        onnx_model_path = f"{onnx_path}/TSUKUYOMICHAN_MODEL_{model_version}"
+        onnx_vocoder_model_path = f"{onnx_model_path}/vocoder/{onnx_vocoder_name}"
 
         if not os.path.exists(download_path):
             os.makedirs(download_path)
         if not os.path.exists(model_path):
             cls.download_model(download_path, model_path, model_url)
-            cls.update_acoustic_model_config(acoustic_model_config_path, acoustic_model_stats_path)
+            cls.update_acoustic_model_config(
+                acoustic_model_config_path, acoustic_model_stats_path)
         if not os.path.exists(onnx_model_path):
+            print("TTSModel exporting...")
             m = TTSModelExport(onnx_path)
             acoustic_model = Text2Speech(
                 acoustic_model_config_path,
@@ -72,13 +78,56 @@ class TTSConfig(NamedTuple):
                 backward_window=1,
                 forward_window=3
             )
-            m.export(acoustic_model,f"TSUKUYOMICHAN_MODEL_{model_version}",quantize=True)
+            m.export(acoustic_model,f"TSUKUYOMICHAN_MODEL_{model_version}", quantize=True)
+            print("exported")
+        if not os.path.exists(f"{onnx_model_path}/vocoder/"):
+            os.makedirs(f"{onnx_model_path}/vocoder/")
+        if not os.path.exists(onnx_vocoder_model_path):
+            from tsukuyomichan_talksoft import (
+                ParallelWaveGANGenerator,
+                TsukuyomichanTalksoft
+            )
+            checkpoint = vocoder_model_path
+            config = None
+            if config is None:
+                dirname = os.path.dirname(checkpoint)
+                config = os.path.join(dirname, "config.yml")
+                with open(config) as f:
+                    config = yaml.load(f, Loader=yaml.Loader)
+                # get model and load parameters
+                model = ParallelWaveGANGenerator(**config["generator_params"])
+                model.load_state_dict(
+                    torch.load(checkpoint, map_location="cpu")["model"]["generator"]
+                )
+
+                def Convert_ONNX():
+                    # set the model to inference mode
+                    model.eval()
+                    # Let's create a dummy input tensor
+                    ts = TsukuyomichanTalksoft(model_version=model_version)
+                    mel = ts.get_acoustic_model()("やぁ")["feat_gen"]
+                    x = torch.randn(1, 1, len(mel) * model.upsample_factor).to(next(model.parameters()).device)
+                    mel = torch.tensor(mel, dtype=torch.float).to(next(model.parameters()).device)
+                    mel = mel.transpose(1, 0).unsqueeze(0)
+                    mel = torch.nn.ReplicationPad1d(model.aux_context_window)(mel)
+                    # Export the model
+                    torch.onnx.export(model,         # model being run         
+                      (x,mel),# model input (or a tuple for multiple inputs)
+                      onnx_vocoder_model_path,       # where to save the model
+                      export_params=True,  # store the trained parameter weights inside the model file
+                      do_constant_folding=False,  # whether to execute constant folding for optimization
+                      input_names=['modelInput'],   # the model's input names
+                      output_names=['modelOutput']  # the model's output names
+                    )
+                    print(" ")
+                    print('Model has been converted to ONNX')
+                    Convert_ONNX()
         scaler = cls.get_scaler(vocoder_stats_path) if use_vocoder_stats_flag else None
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         return TTSConfig(download_path=download_path,
                          model_version=model_version,
-                         model_url=model_url,                 
+                         model_url=model_url,
                          model_path=model_path,
                          acoustic_model_path=acoustic_model_path,
                          acoustic_model_config_path=acoustic_model_config_path,
@@ -86,6 +135,8 @@ class TTSConfig(NamedTuple):
                          vocoder_model_path=vocoder_model_path,
                          vocoder_stats_path=vocoder_stats_path,
                          use_vocoder_stats_flag=use_vocoder_stats_flag,
+                         onnx_model_path=onnx_model_path,
+                         onnx_vocoder_model_path=onnx_vocoder_model_path,
                          scaler=scaler,
                          device=device)
 
