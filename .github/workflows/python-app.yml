@@ -23,13 +23,10 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.7"
-    - name: Set the site package path to the environment variables
-      run: python -c "import site; print(f'site_package_path={site.getsitepackages()[0]}')" >> $GITHUB_ENV
     - name: Set the Python package cache
-      uses: actions/cache@v2
+      uses: actions/checkout@v3
       with:
-        path: ${{ env.site_package_path }}
-        key: ${{ runner.os }}-pip-${{ env.site_package_path }}-${{ hashFiles('**/requirements.txt') }}
+        cache: 'pip'
     - name: Install dependencies
       run: |
         sudo apt-get install  libsndfile1-dev
