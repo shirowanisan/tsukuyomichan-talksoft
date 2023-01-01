@@ -1,6 +1,8 @@
 import os
 import yaml
 from typing import NamedTuple
+
+
 class TTSConfig(NamedTuple):
     download_path: str
     model_version: str
@@ -13,7 +15,7 @@ class TTSConfig(NamedTuple):
     vocoder_stats_path: str
     onnx_model_path: str
     onnx_vocoder_model_path: str
-    optimized_onnx_vocoder_model_path:str
+    optimized_onnx_vocoder_model_path: str
     use_vocoder_stats_flag: bool
     device: str
 
@@ -75,8 +77,7 @@ class TTSConfig(NamedTuple):
                 backward_window=1,
                 forward_window=3
             )
-            m.export(acoustic_model,
-                     f"TSUKUYOMICHAN_MODEL_{model_version}", quantize=True)
+            m.export(acoustic_model,f"TSUKUYOMICHAN_MODEL_{model_version}", quantize=True)
             print("exported")
         if not os.path.exists(f"{onnx_model_path}/vocoder/"):
             os.makedirs(f"{onnx_model_path}/vocoder/")
@@ -97,32 +98,33 @@ class TTSConfig(NamedTuple):
                         "model"]["generator"]
                 )
 
-                def Convert_ONNX():
-                    # set the model to inference mode
-                    model.eval()
-                    # Let's create a dummy input tensor
-                    sample_c = torch.randn(40, 80)
-                    sample_x = torch.randn(1, 1, 12000)
-                    sample_c = torch.nn.ReplicationPad1d(2)(
-                        sample_c.transpose(1, 0).unsqueeze(0))
-                    # Export the model
-                    torch.onnx.export(model,         # model being run
-                                      # model input (or a tuple for multiple inputs)
-                                      (sample_x, sample_c),
-                                      onnx_vocoder_model_path,       # where to save the model
-                                      export_params=True,  # store the trained parameter weights inside the model file
-                                      do_constant_folding=True,  # whether to execute constant folding for optimization
-                                      # the model's input names
-                                      input_names=["x", "c"],
-                                      # the model's output names
-                                      output_names=["audio"],
-                                      dynamic_axes={"x": {2: "x_seq"},
-                                                    "c": {2: "c_seq"},
-                                                    "audio": {2: "audio_seq"}}
-                                      )
-                    print(" ")
-                    print('Model has been converted to ONNX')
-                    Convert_ONNX()
+            def Convert_ONNX():
+                # set the model to inference mode
+                model.eval()
+                # Let's create a dummy input tensor
+                sample_c = torch.randn(40, 80)
+                sample_x = torch.randn(1, 1, 12000)
+                sample_c = torch.nn.ReplicationPad1d(2)(
+                    sample_c.transpose(1, 0).unsqueeze(0)
+                )
+                # Export the model
+                torch.onnx.export(model,         # model being run
+                                  # model input (or a tuple for multiple inputs)
+                                  (sample_x, sample_c),
+                                  onnx_vocoder_model_path,       # where to save the model
+                                  export_params=True,  # store the trained parameter weights inside the model file
+                                  do_constant_folding=True,  # whether to execute constant folding for optimization
+                                  # the model's input names
+                                  input_names=["x", "c"],
+                                  # the model's output names
+                                  output_names=["audio"],
+                                  dynamic_axes={"x": {2: "x_seq"},
+                                                "c": {2: "c_seq"},
+                                                "audio": {2: "audio_seq"}}
+                                  )
+                print(" ")
+                print('Model has been converted to ONNX')
+            Convert_ONNX()
         if not os.path.exists(optimized_onnx_vocoder_model_path):
             print("Optimizing")
             import onnx
