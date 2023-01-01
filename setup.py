@@ -15,6 +15,6 @@ requirements = _parse_requirements('requirements.txt')
 setuptools.setup(
     name='tsukuyomichan_talksoft',
     version=__version__,
-    py_modules=['tsukuyomichan_talksoft', 'tts_config'],
+    py_modules=['tsukuyomichan_talksoft', 'tts_config','onnx_talksoft'],
     install_requires=requirements,
 )

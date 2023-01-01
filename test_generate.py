@@ -2,8 +2,7 @@ import numpy as np
 MAX_WAV_VALUE = 32768.0
 fs = 24000
 import time
-#from python_talksoft import TsukuyomichanTalksoft
-from tsukuyomichan_talksoft import TsukuyomichanTalksoft
+from onnx_talksoft import TsukuyomichanTalksoft
 talksoft = TsukuyomichanTalksoft(model_version='v.1.0.0')
 def test_say_01():
     start = time.perf_counter()
