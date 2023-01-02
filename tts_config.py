@@ -79,6 +79,7 @@ class TTSConfig(NamedTuple):
             )
             m.export(acoustic_model,f"TSUKUYOMICHAN_MODEL_{model_version}", quantize=True)
             print("exported")
+            cls.update_onnx_acoustic_model_config(f"{onnx_model_path}/config.yaml")
         if not os.path.exists(f"{onnx_model_path}/vocoder/"):
             os.makedirs(f"{onnx_model_path}/vocoder/")
         if not os.path.exists(onnx_vocoder_model_path):
@@ -170,5 +171,15 @@ class TTSConfig(NamedTuple):
         if not yml['normalize_conf']['stats_file'] == acoustic_model_stats_path:
             yml['normalize_conf']['stats_file'] = acoustic_model_stats_path
             with open(acoustic_model_config_path, 'w') as f:
+                yaml.safe_dump(yml, f)
+            print("Update acoustic model yaml.")
+    
+    @staticmethod
+    def update_onnx_acoustic_model_config(onnx_acoustic_model_config_path):
+        with open(onnx_acoustic_model_config_path) as f:
+            yml = yaml.safe_load(f)
+        if not yml['normalize']['use_normalize'] == False:
+            yml['normalize']['use_normalize'] = False
+            with open(onnx_acoustic_model_config_path, 'w') as f:
                 yaml.safe_dump(yml, f)
             print("Update acoustic model yaml.")
