@@ -1,13 +1,14 @@
 # シロワニさんのつくよみちゃんトークソフト
 
-「シロワニさんのつくよみちゃんトークソフト」は、シロワニさんがフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成した自作トークソフトです。
+「シロワニさんのつくよみちゃんトークソフト」は、シロワニさんがフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成したシロワニさんの自作トークソフトです。
 
 テキストを入力すれば、つくよみちゃんの声質で読み上げ音声を出力します。ボイスロイドやゆっくりのようなものと説明した方がイメージしやすいかもしれません。
 
 そして、「シロワニさんのつくよみちゃんトークソフト」のモデルのロードを非同期にして起動を早くしただけのものがこのレポジトリです。<br>
 しかし、[COEIROINK](https://coeiroink.com/)さんの方が早い気がしてきました。<br>
-このブランチはCPUで「やぁ」を5秒程度で生成することができます<br>
-ほぼほぼONNXに移行しました
+このブランチはCPUで「やぁ」を7秒程度で生成することができます<br>
+ほぼほぼONNXに移行しました<br>
+何もしなくてもモデルを用意してくれるようにしました
 # 利用規約・免責事項
 
 こちらを必ずご確認の上、ご使用ください。
@@ -34,8 +35,9 @@ GPUを使って計算する場合は、PC内でcudaの設定をして、イン�
 
 ## 環境構築
 
-Visual StudioのCMakeをインストールしてからPathを通してから以下のコードを実行してください
+CMakeをインストールしてからPathを通してから以下のコードを実行してください
 ```bash
+$ git clone https://github.com/FanaticPond3462/tsukuyomichan-talksoft
 $ pip install -r requirements.txt
 ```
 
@@ -55,10 +57,36 @@ $ python main.py
 
 ## 開発者向け
 ### Pythonモジュールとしてインストール
+```bash
+pip install git+https://github.com/FanaticPond3462/tsukuyomichan-talksoft
 ```
-pip install git+https://github.com/shirowanisan/tsukuyomichan-talksoft
+### 使用方法
+以下のpythonのコードでonnxの推論エンジンで合成することができます。
+```python
+import numpy as np
+import simpleaudio as sa
+from onnx_talksoft import TsukuyomichanTalksoft
+MAX_WAV_VALUE = 32768.0
+fs = 24000
+talksoft = TsukuyomichanTalksoft(model_version='v.1.0.0')
+wav = talksoft.generate_voice("こんにちは",0)
+wav = wav * MAX_WAV_VALUE
+wav = wav.astype(np.int16)
+sa.play_buffer(wav, 1, 2, fs)
 ```
-
+pytorchの推論エンジンで合成するには以下のpythonのコードで合成することができます。
+```python
+import numpy as np
+import simpleaudio as sa
+from tsukuyomichan_talksoft import TsukuyomichanTalksoft
+MAX_WAV_VALUE = 32768.0
+fs = 24000
+talksoft = TsukuyomichanTalksoft(model_version='v.1.0.0')
+wav = talksoft.generate_voice("こんにちは",0)
+wav = wav * MAX_WAV_VALUE
+wav = wav.astype(np.int16)
+sa.play_buffer(wav, 1, 2, fs)
+```
 # クレジット表記
 
 本コンテンツは「シロワニさんのつくよみちゃんトークソフト」のソースコードを使用しています。
