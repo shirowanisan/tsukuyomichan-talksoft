@@ -1,19 +1,18 @@
 import os
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
-
+from scipy.io.wavfile import write
 import numpy as np
 import simpleaudio as sa
-import soundfile as sf
 
 #非同期でインポート
 pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="thread")
 def talkinit():
-    from tsukuyomichan_talksoft import TsukuyomichanTalksoft
+    from onnx_talksoft import TsukuyomichanTalksoft
     return TsukuyomichanTalksoft(model_version='v.1.2.0')
 future = pool.submit(talkinit)
 # config
-MAX_WAV_VALUE = 32768.0
+MAX_WAV_VALUE = 25000
 fs = 24000
 wav = []
 seed = 0
@@ -63,7 +62,7 @@ def play_voice():
 
 def save_voice():
     os.makedirs('output', exist_ok=True)
-    sf.write(f"output/{text}_{seed}.wav", wav, fs, 'PCM_16')
+    write(f"output/{text}_{seed}.wav", rate=fs ,data=wav)
 
 
 run_button = tk.Button(text='作る', command=make_tsukuyomichan_voice)

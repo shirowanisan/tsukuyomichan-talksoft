@@ -124,10 +124,10 @@ class TTSConfig(NamedTuple):
                                                 "audio": {2: "audio_seq"}}
                                   )
                 print(" ")
-                print('Model has been converted to ONNX')
+                print('torch vocoder model has been converted to ONNX')
             Convert_ONNX()
         if not os.path.exists(optimized_onnx_vocoder_model_path):
-            print("Optimizing")
+            print("Optimizing ONNX model")
             import onnx
             from onnxsim import simplify
             model = onnx.load(onnx_vocoder_model_path)
@@ -178,8 +178,9 @@ class TTSConfig(NamedTuple):
     def update_onnx_acoustic_model_config(onnx_acoustic_model_config_path):
         with open(onnx_acoustic_model_config_path) as f:
             yml = yaml.safe_load(f)
-        if not yml['normalize']['use_normalize'] == False:
+        if not yml['normalize']['use_normalize'] == False or not yml['vocoder']['vocoder_type'] == "not_used":
             yml['normalize']['use_normalize'] = False
+            yml['vocoder']['vocoder_type'] = "not_used"
             with open(onnx_acoustic_model_config_path, 'w') as f:
                 yaml.safe_dump(yml, f)
             print("Update acoustic model yaml.")
