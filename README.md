@@ -1,5 +1,4 @@
-# シロワニさんのつくよみちゃんトークソフト
-
+<h2 align="center">シロワニさんのつくよみちゃんトークソフト</h2>
 「シロワニさんのつくよみちゃんトークソフト」は、シロワニさんがフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成したシロワニさんの自作トークソフトです。
 
 テキストを入力すれば、つくよみちゃんの声質で読み上げ音声を出力します。ボイスロイドやゆっくりのようなものと説明した方がイメージしやすいかもしれません。
@@ -60,9 +59,9 @@ $ python main.py
 ```bash
 pip install git+https://github.com/FanaticPond3462/tsukuyomichan-talksoft
 ```
-### 使用方法
+### 💬 使用方法
 以下のpythonのコードでonnxの推論エンジンで合成することができます。
-```python
+```python:app.py
 import numpy as np
 import simpleaudio as sa
 from onnx_talksoft import TsukuyomichanTalksoft
@@ -75,7 +74,7 @@ wav = wav.astype(np.int16)
 sa.play_buffer(wav, 1, 2, fs)
 ```
 pytorchの推論エンジンで合成するには以下のpythonのコードで合成することができます。
-```python
+```python:app.py
 import numpy as np
 import simpleaudio as sa
 from tsukuyomichan_talksoft import TsukuyomichanTalksoft
@@ -87,6 +86,11 @@ wav = wav * MAX_WAV_VALUE
 wav = wav.astype(np.int16)
 sa.play_buffer(wav, 1, 2, fs)
 ```
+Tips
+```python
+ talksoft.generate_voice("こんにちは",0)
+```
+の0は省略可能です
 # クレジット表記
 
 本コンテンツは「シロワニさんのつくよみちゃんトークソフト」のソースコードを使用しています。
