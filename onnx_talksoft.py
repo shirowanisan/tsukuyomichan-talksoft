@@ -63,14 +63,15 @@ class TsukuyomichanTalksoft:
 
     def get_acoustic_model(self):
         acoustic_model = Text2Speech(
-            model_dir=f"onnx_models\TSUKUYOMICHAN_MODEL_{self.model_version}"
+            model_dir=f"onnx_models\TSUKUYOMICHAN_MODEL_{self.model_version}",
+            use_quantized = True
         )
         acoustic_model.spc2wav = None
         return acoustic_model
 
     def get_vocoder(self):
         vocoder = ParallelWaveGANGenerator(
-            path=self.config.optimized_onnx_vocoder_model_path)
+            path=self.config.quant_onnx_vocoder_model_path)
         return vocoder
 
     def generate_voice(self, text, seed=0):

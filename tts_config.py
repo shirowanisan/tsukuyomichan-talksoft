@@ -16,6 +16,7 @@ class TTSConfig(NamedTuple):
     onnx_model_path: str
     onnx_vocoder_model_path: str
     optimized_onnx_vocoder_model_path: str
+    quant_onnx_vocoder_model_path: str
     use_vocoder_stats_flag: bool
     device: str
 
@@ -27,6 +28,7 @@ class TTSConfig(NamedTuple):
             acoustic_name = '200epoch.pth'
             onnx_vocoder_name = 'ParallelWaveGANGenerator.onnx'
             optimized_onnx_vocoder_name = 'ParallelWaveGANGenerator.opt.onnx'
+            quant_onnx_vocoder_name  = 'ParallelWaveGANGenerator.quant.onnx'
             vocoder_name = 'checkpoint-400000steps.pkl'
             use_vocoder_stats_flag = False
         elif model_version == 'v.1.1.0':
@@ -34,6 +36,7 @@ class TTSConfig(NamedTuple):
             acoustic_name = '200epoch.pth'
             onnx_vocoder_name = 'ParallelWaveGANGenerator.onnx'
             optimized_onnx_vocoder_name = 'ParallelWaveGANGenerator.opt.onnx'
+            quant_onnx_vocoder_name = 'ParallelWaveGANGenerator.quant.onnx'
             vocoder_name = 'checkpoint-300000steps.pkl'
             use_vocoder_stats_flag = False
         elif model_version == 'v.1.2.0':
@@ -41,6 +44,7 @@ class TTSConfig(NamedTuple):
             acoustic_name = '200epoch.pth'
             onnx_vocoder_name = 'ParallelWaveGANGenerator.onnx'
             optimized_onnx_vocoder_name = 'ParallelWaveGANGenerator.opt.onnx'
+            quant_onnx_vocoder_name  = 'ParallelWaveGANGenerator.quant.onnx'
             vocoder_name = 'checkpoint-300000steps.pkl'
             use_vocoder_stats_flag = True
         else:
@@ -54,6 +58,7 @@ class TTSConfig(NamedTuple):
         onnx_model_path = f"{onnx_path}/TSUKUYOMICHAN_MODEL_{model_version}"
         onnx_vocoder_model_path = f"{onnx_model_path}/vocoder/{onnx_vocoder_name}"
         optimized_onnx_vocoder_model_path = f"{onnx_model_path}/vocoder/{optimized_onnx_vocoder_name}"
+        quant_onnx_vocoder_model_path = f"{onnx_model_path}/vocoder/{quant_onnx_vocoder_name}"
 
         if not os.path.exists(download_path):
             os.makedirs(download_path)
@@ -137,6 +142,13 @@ class TTSConfig(NamedTuple):
                 onnx.save(model_opt, optimized_onnx_vocoder_model_path)
             else:
                 print("Failed to optimize model")
+        if not os.path.exists(quant_onnx_vocoder_model_path):
+            from onnxruntime.quantization import quantize_dynamic, QuantType
+            quantize_dynamic(
+                optimized_onnx_vocoder_model_path,
+                quant_onnx_vocoder_model_path,
+                weight_type=QuantType.QUInt8,
+            )
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         return TTSConfig(download_path=download_path,
@@ -152,7 +164,8 @@ class TTSConfig(NamedTuple):
                          onnx_model_path=onnx_model_path,
                          onnx_vocoder_model_path=onnx_vocoder_model_path,
                          device=device,
-                         optimized_onnx_vocoder_model_path=optimized_onnx_vocoder_model_path)
+                         optimized_onnx_vocoder_model_path=optimized_onnx_vocoder_model_path,
+                         quant_onnx_vocoder_model_path=quant_onnx_vocoder_model_path)
 
     @staticmethod
     def download_model(download_path, model_path, model_url):

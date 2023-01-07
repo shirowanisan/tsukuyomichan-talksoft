@@ -7,6 +7,3 @@ espnet_onnx
 espnet_model_zoo
 onnx
 torchaudio
-tensorflow
-onnx-tf
-tensorflow_probability
