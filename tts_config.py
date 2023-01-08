@@ -60,12 +60,17 @@ class TTSConfig(NamedTuple):
         optimized_onnx_vocoder_model_path = f"{onnx_model_path}/vocoder/{optimized_onnx_vocoder_name}"
         quant_onnx_vocoder_model_path = f"{onnx_model_path}/vocoder/{quant_onnx_vocoder_name}"
 
+        #保存するフォルダがなかった場合はフォルダを作る
         if not os.path.exists(download_path):
             os.makedirs(download_path)
+        
+        #利用するpytorchのモデルがなかった場合はモデルをダウンロードする
         if not os.path.exists(model_path):
             cls.download_model(download_path, model_path, model_url)
             cls.update_acoustic_model_config(
                 acoustic_model_config_path, acoustic_model_stats_path)
+        
+        #利用するonnxのモデルがなかった場合はモデルをpytorchから変換し、量子化する
         if not os.path.exists(onnx_model_path):
             from espnet_onnx.export import TTSModelExport
             from espnet2.bin.tts_inference import Text2Speech
@@ -85,8 +90,10 @@ class TTSConfig(NamedTuple):
             m.export(acoustic_model,f"TSUKUYOMICHAN_MODEL_{model_version}", quantize=True)
             print("exported")
             cls.update_onnx_acoustic_model_config(f"{onnx_model_path}/config.yaml")
+        #利用するonnxのボコーダーのモデルのフォルダがなかった場合はフォルダを作成する
         if not os.path.exists(f"{onnx_model_path}/vocoder/"):
             os.makedirs(f"{onnx_model_path}/vocoder/")
+        #利用するonnxのボコーダーのモデルのファイルがなかった場合はpytorchから変換し、量子化する
         if not os.path.exists(onnx_vocoder_model_path):
             import torch.onnx
             from parallel_wavegan.models import ParallelWaveGANGenerator
@@ -105,25 +112,23 @@ class TTSConfig(NamedTuple):
                 )
 
             def Convert_ONNX():
-                # set the model to inference mode
+                # モデルを推論モードにする
                 model.eval()
-                # Let's create a dummy input tensor
+               
+                #サンプルの入力を作る
                 sample_c = torch.randn(40, 80)
                 sample_x = torch.randn(1, 1, 12000)
                 sample_c = torch.nn.ReplicationPad1d(2)(
                     sample_c.transpose(1, 0).unsqueeze(0)
                 )
                 # Export the model
-                torch.onnx.export(model,         # model being run
-                                  # model input (or a tuple for multiple inputs)
-                                  (sample_x, sample_c),
-                                  onnx_vocoder_model_path,       # where to save the model
-                                  export_params=True,  # store the trained parameter weights inside the model file
-                                  do_constant_folding=True,  # whether to execute constant folding for optimization
-                                  # the model's input names
-                                  input_names=["x", "c"],
-                                  # the model's output names
-                                  output_names=["audio"],
+                torch.onnx.export(model,                   # model being run
+                                  (sample_x, sample_c),    # model input (or a tuple for multiple inputs)
+                                  onnx_vocoder_model_path, # where to save the model
+                                  export_params=True,      # store the trained parameter weights inside the model file
+                                  do_constant_folding=True,# whether to execute constant folding for optimization
+                                  input_names=["x", "c"],  # the model's input names
+                                  output_names=["audio"],  # the model's output names
                                   dynamic_axes={"x": {2: "x_seq"},
                                                 "c": {2: "c_seq"},
                                                 "audio": {2: "audio_seq"}}

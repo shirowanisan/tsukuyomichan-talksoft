@@ -5,6 +5,8 @@ from espnet_onnx.tts.tts_model import Text2Speech
 from tts_config import TTSConfig
 import torch
 
+#ONNXで推論するためのクラスです
+
 class ParallelWaveGANGenerator:
     def __init__(self,
                  aux_context_window=2,
@@ -30,27 +32,17 @@ class ParallelWaveGANGenerator:
             Tensor: Output tensor (T, out_channels)
 
         """
+        #pytorchで一回テンソル(?)を作ってからnumpyのarray型に直してからONNXで推論しています.
+        #将来的にはnumpyだけで完結させたいです.
         x = torch.randn(1, 1, len(c) * 300).numpy()
         c = torch.tensor(c, dtype=torch.float)
         c = c.transpose(1, 0).unsqueeze(0)
         c = torch.nn.ReplicationPad1d(self.aux_context_window)(c).numpy()
+
         ort_inputs = {self.session.get_inputs()[0].name:
                       x, self.session.get_inputs()[1].name: c}
+        
         return self.session.run(None, ort_inputs)
-
-    def _named_members(self, get_members_fn, prefix='', recurse=True):
-        r"""Helper method for yielding various names + members of modules."""
-        memo = set()
-        modules = self.named_modules(prefix=prefix) if recurse else [
-            (prefix, self)]
-        for module_prefix, module in modules:
-            members = get_members_fn(module)
-            for k, v in members:
-                if v is None or v in memo:
-                    continue
-                memo.add(v)
-                name = module_prefix + ('.' if module_prefix else '') + k
-                yield name, v
 
 
 class TsukuyomichanTalksoft:
