@@ -91,10 +91,12 @@ wav = wav * MAX_WAV_VALUE
 wav = wav.astype(np.int16)
 sa.play_buffer(wav, 1, 2, fs)
 ```
-Tips
-```python
- talksoft.generate_voice("こんにちは",0)
-```
+> **Note**
+>```python
+> talksoft.generate_voice("こんにちは",0)
+>```
+ 
+
 の0は省略可能です
 # クレジット表記
 
