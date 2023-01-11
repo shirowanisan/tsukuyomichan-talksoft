@@ -93,9 +93,10 @@ sa.play_buffer(wav, 1, 2, fs)
 ```
 > **Note**
 >```python
-> talksoft.generate_voice("こんにちは",0)
+>　talksoft = TsukuyomichanTalksoft()
+>　talksoft.generate_voice("こんにちは")  
 >```
-> の0は省略可能です
+> でも行けます
 # クレジット表記
 
 本コンテンツは「シロワニさんのつくよみちゃんトークソフト」のソースコードを使用しています。
