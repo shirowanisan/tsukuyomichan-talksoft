@@ -3,8 +3,6 @@ import onnxruntime
 from espnet_onnx.tts.tts_model import Text2Speech
 
 from tts_config import TTSConfig
-import torch
-
 
 #ONNXで推論するためのクラスです
 
@@ -54,10 +52,8 @@ class ParallelWaveGANGenerator:
             result = np.zeros(arr_shape)
             result[0] = padded_array
             return result
-        #pytorchで一回テンソル(?)を作ってからnumpyのarray型に直してからONNXで推論しています.
-        #将来的にはnumpyだけで完結させたいです.
-        x = np.random.randn(1, 1, len(c) * 300).astype(np.float32)
-        c = np.expand_dims(c.transpose(1,0),0)
+        x = np.random.randn(1, 1, len(c) * 300).astype(np.float32) #torch.randn
+        c = np.expand_dims(c.transpose(1,0),0) #transposeは
         c = np.pad(c,2,"edge")
         c = replicate_padding(c).astype(np.float32)
         ort_inputs = {self.session.get_inputs()[0].name:
