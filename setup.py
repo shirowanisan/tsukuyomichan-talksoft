@@ -1,6 +1,6 @@
 import setuptools
 
-__version__ = '0.0.1dev1'
+__version__ = '0.0.2'
 
 def _parse_requirements(path):
     with open(path) as f:

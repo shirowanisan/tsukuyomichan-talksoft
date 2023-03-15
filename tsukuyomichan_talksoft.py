@@ -24,6 +24,7 @@ class TsukuyomichanTalksoft:
             backward_window=1,
             forward_window=3
         )
+        acoustic_model.vocoder = None
         acoustic_model.spc2wav = None
         return acoustic_model
 
@@ -36,9 +37,11 @@ class TsukuyomichanTalksoft:
         np.random.seed(seed)
         torch.manual_seed(seed)
         with torch.no_grad():
-            _, mel, mel_dnorm, *_ = self.acoustic_model(text)
+            output = self.acoustic_model(text)
             if self.config.use_vocoder_stats_flag:
-                mel = self.config.scaler.transform(mel_dnorm.cpu())
+                mel = self.config.scaler.transform(output['feat_gen_denorm'].cpu())
+            else:
+                mel = output['feat_gen']
             wav = self.vocoder.inference(mel)
         wav = wav.view(-1).cpu().numpy()
         return wav
