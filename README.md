@@ -1,9 +1,18 @@
-# シロワニさんのつくよみちゃんトークソフト
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/111404437/210527746-2dbeb692-6f4a-41f7-b639-e7f7c19ba539.png">
+</p>
+<h2 align="center">ONNXで実行するから早い</h2>
 
-「シロワニさんのつくよみちゃんトークソフト」は、私（シロワニさん）がフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成した自作トークソフトです。
+「シロワニさんのつくよみちゃんトークソフト」は、シロワニさんがフリー素材キャラクター「つくよみちゃん」の無料公開音声データを使用して作成したシロワニさんの自作トークソフトです。
 
 テキストを入力すれば、つくよみちゃんの声質で読み上げ音声を出力します。ボイスロイドやゆっくりのようなものと説明した方がイメージしやすいかもしれません。
 
+そして、「シロワニさんのつくよみちゃんトークソフト」のモデルのロードを非同期にして起動を早くしただけのものがこのレポジトリです。<br>
+しかし、[COEIROINK](https://coeiroink.com/)さんの方が早い気がしてきました。<br>
+このブランチはCPUで「やぁ」を7秒程度で生成することができます<br>
+ほぼほぼONNXに移行しました<br>
+何もしなくてもモデルを用意してくれるようにしました<br>
+たぶん「シロワニさんのつくよみちゃんトークソフト」より早いです(自分調べ)
 # 利用規約・免責事項
 
 こちらを必ずご確認の上、ご使用ください。
@@ -12,17 +21,7 @@ https://shirowanisan.com/tyc-talksoft
 
 # Google Colabでの使用
 
-◆落ち着いた読み上げ（従来版）
-
-[つくよみちゃんトークソフト-v.1.0.0-GoogleColab](https://colab.research.google.com/drive/1VX1pPK-A5KHcUnpBz__IYXzVR-93ECan?usp=sharing)
-
-◆感情的な読み上げ（声が明るい時と暗い時があります）
-
-[つくよみちゃんトークソフト-v.1.1.0-GoogleColab](https://colab.research.google.com/drive/1x8T1FE_Gt3baJetEperSYhkVOvEBhX1p?usp=sharing)
-
-◆感情的な読み上げ（イントネーション改善版）
-
-[つくよみちゃんトークソフト-v.1.2.0-GoogleColab](https://colab.research.google.com/drive/1zYzc4qJF_sTp8Vt51wI718sgMckfy85e?usp=sharing)
+ColabだとGUIがないので高速化ができないのでありません
 
 # ローカルでGUIでの使用（エンジニア向け）
 
@@ -30,17 +29,19 @@ https://shirowanisan.com/tyc-talksoft
 
 | OS      | 動作 |
 | ------- | ---------------------------------------------------------- |
-| Windows | ❌ インストールする難易度が高いです。できないものと考えた方が良いかもしれません。 |
-| Mac     | ⭕ 「Intel Mac Big Sur」で動作確認しました。 |
-| Linux   | ⭕️ 「Ubuntu 18.04」で動作確認しました。 |
+| Windows | ⭕ 「Windows 11」で動作を確認しました|
+| Mac     | ⭕ (多分動きます) |
+| Linux   | ⭕️ (多分動きます) |
 
-pythonは3.8系で動作確認しました。
+pythonは3.7系で動作確認しました。
 
 GPUを使って計算する場合は、PC内でcudaの設定をして、インストールするpytorchをgpu用のものにかえてください。
 
 ## 環境構築
 
+CMakeをインストールしてからPathを通してから以下のコードを実行してください
 ```bash
+$ git clone https://github.com/FanaticPond3462/tsukuyomichan-talksoft
 $ pip install -r requirements.txt
 ```
 
@@ -60,11 +61,49 @@ $ python main.py
 
 ## 開発者向け
 ### Pythonモジュールとしてインストール
+```bash
+pip install git+https://github.com/FanaticPond3462/tsukuyomichan-talksoft
 ```
-pip install git+https://github.com/shirowanisan/tsukuyomichan-talksoft
+### 💬 使用方法
+以下のpythonのコードでonnxの推論エンジンで合成することができます。
+```python:app.py
+import numpy as np
+import simpleaudio as sa
+from onnx_talksoft import TsukuyomichanTalksoft
+MAX_WAV_VALUE = 32768.0
+fs = 24000
+talksoft = TsukuyomichanTalksoft(model_version='v.1.0.0')
+wav = talksoft.generate_voice("こんにちは",0)
+wav = wav * MAX_WAV_VALUE
+wav = wav.astype(np.int16)
+sa.play_buffer(wav, 1, 2, fs)
 ```
-
+pytorchの推論エンジンで合成するには以下のpythonのコードで合成することができます。
+```python:app.py
+import numpy as np
+import simpleaudio as sa
+from tsukuyomichan_talksoft import TsukuyomichanTalksoft
+MAX_WAV_VALUE = 32768.0
+fs = 24000
+talksoft = TsukuyomichanTalksoft(model_version='v.1.0.0')
+wav = talksoft.generate_voice("こんにちは",0)
+wav = wav * MAX_WAV_VALUE
+wav = wav.astype(np.int16)
+sa.play_buffer(wav, 1, 2, fs)
+```
+> **Note**
+>```python
+>　talksoft = TsukuyomichanTalksoft()
+>　talksoft.generate_voice("こんにちは")  
+>```
+> でも行けます
 # クレジット表記
+
+本コンテンツは「シロワニさんのつくよみちゃんトークソフト」のソースコードを使用しています。
+
+■シロワニさんのつくよみちゃんトークソフト
+https://shirowanisan.com/tyc-talksoft
+© shirowanisan
 
 こちらのコードでは、フリー素材キャラクター「つくよみちゃん」の無料公開音声データから作られた音声合成モデルを使用する可能性があります。
 
