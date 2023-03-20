@@ -39,7 +39,8 @@ GPUを使って計算する場合は、PC内でcudaの設定をして、イン�
 
 ## 環境構築
 
-CMakeをインストールしてからPathを通してから以下のコードを実行してください
+CMakeをインストールしてからPathを通してから以下のコードを実行してください。
+CMakeをインストールした場合GCCなどのコンパイラが必要です。
 ```bash
 $ git clone https://github.com/FanaticPond3462/tsukuyomichan-talksoft
 $ pip install -r requirements.txt
