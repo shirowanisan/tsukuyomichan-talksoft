@@ -1,17 +1,17 @@
 import numpy as np
 import time
 
-from onnx_talksoft import TsukuyomichanTalksoft as onnxtalk
+from tsukuyomichan_talksoft import onnx_talksoft
 #onnxで推論するためのクラスを取得しています.
-onnxtalk1 = onnxtalk(model_version='v.1.0.0')
-onnxtalk2 = onnxtalk(model_version='v.1.1.0')
-onnxtalk3 = onnxtalk(model_version='v.1.2.0')
+onnxtalk1 = onnx_talksoft.TsukuyomichanTalksoft(model_version='v.1.0.0')
+onnxtalk2 = onnx_talksoft.TsukuyomichanTalksoft(model_version='v.1.1.0')
+onnxtalk3 = onnx_talksoft.TsukuyomichanTalksoft(model_version='v.1.2.0')
 
-from tsukuyomichan_talksoft import TsukuyomichanTalksoft as torchtalk
+from tsukuyomichan_talksoft import tsukuyomichan_talksoft
 #pytorchで推論するためのクラスを取得しています.
-torchtalk1 = torchtalk(model_version='v.1.0.0')
-torchtalk2 = torchtalk(model_version='v.1.1.0')
-torchtalk3 = torchtalk(model_version='v.1.2.0')
+torchtalk1 = tsukuyomichan_talksoft.TsukuyomichanTalksoft(model_version='v.1.0.0')
+torchtalk2 = tsukuyomichan_talksoft.TsukuyomichanTalksoft(model_version='v.1.1.0')
+torchtalk3 = tsukuyomichan_talksoft.TsukuyomichanTalksoft(model_version='v.1.2.0')
 
 def test_onnx_say_01():
     start = time.perf_counter()  #タイマーの開始
